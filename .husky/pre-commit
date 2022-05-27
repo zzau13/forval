@@ -4,5 +4,4 @@
 pnpm lint
 pnpm test -- --run
 pnpm format:staged
-pnpm build
 
