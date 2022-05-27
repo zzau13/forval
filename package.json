@@ -41,8 +41,9 @@
     "url": "https://github.com/anymaniax/orval"
   },
   "scripts": {
-    "build": "tsup ./src/bin/orval.ts ./src/index.ts --minify --clean --dts --splitting",
-    "dev": "tsup ./src/bin/orval.ts ./src/index.ts --clean --watch src --onSuccess 'yarn generate-api'",
+    "prebuild": "rimraf dist",
+    "build": "tsup ./src/bin/orval.ts ./src/index.ts --minify --clean --dts",
+    "dev": "tsup ./src/bin/orval.ts ./src/index.ts --clean --watch src --onSuccess 'pnpm generate-api'",
     "lint": "eslint src/**/*.ts",
     "test": "vitest --global test.ts",
     "format": "prettier --write .",
@@ -51,7 +52,7 @@
     "release": "dotenv release-it",
     "postrelease": "yarn build && yarn update-samples",
     "generate-api": "node ./dist/bin/orval.js --config ./samples/react-query/basic/orval.config.ts --watch",
-    "prepare": "husky install && cd ./samples/react-query/basic && yarn",
+    "prepare": "husky install",
     "commitlint": "commitlint",
     "update-samples": "zx ./scripts/update-samples.mjs"
   },
@@ -65,6 +66,7 @@
     "@types/fs-extra": "^9.0.12",
     "@types/inquirer": "^8.2.0",
     "@types/lodash.get": "^4.4.6",
+    "@types/lodash.isempty": "^4.4.7",
     "@types/lodash.omit": "^4.5.6",
     "@types/lodash.omitby": "^4.6.6",
     "@types/lodash.uniq": "^4.5.6",
@@ -111,6 +113,7 @@
     "ibm-openapi-validator": "^0.57.4",
     "inquirer": "^8.2.0",
     "lodash.get": "^4.4.2",
+    "lodash.isempty": "^4.4.0",
     "lodash.omit": "^4.5.0",
     "lodash.omitby": "^4.6.0",
     "lodash.uniq": "^4.5.0",

@@ -1,4 +1,4 @@
-import isEmpty from 'lodash/isEmpty';
+const isEmpty = require('lodash.isempty');
 import { SchemasObject } from 'openapi3-ts';
 import { ContextSpecs } from '../../types';
 import { GeneratorSchema } from '../../types/generator';

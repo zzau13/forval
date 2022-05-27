@@ -1,4 +1,4 @@
-import isEmpty from 'lodash/isEmpty';
+const isEmpty = require('lodash.isempty');
 import {
   ComponentsObject,
   ReferenceObject,

@@ -308,13 +308,12 @@ const generateQueryArguments = ({
   isRequestOptions: boolean;
   type?: QueryType;
 }) => {
+  const tData = `${pascal(operationName)}QueryResult`;
+  const tError = `${pascal(operationName)}QueryError`;
+
   const isMutatorHook = mutator?.isHook;
   const definition = type
-    ? `Use${pascal(type)}Options<Awaited<ReturnType<${
-        isMutatorHook
-          ? `ReturnType<typeof use${pascal(operationName)}Hook>`
-          : `typeof ${operationName}`
-      }>>, TError, TData>`
+    ? `Use${pascal(type)}Options<${tData}, ${tError}, ${tData}>`
     : `UseMutationOptions<Awaited<ReturnType<${
         isMutatorHook
           ? `ReturnType<typeof use${pascal(operationName)}Hook>`
@@ -422,24 +421,22 @@ const generateQueryImplementation = ({
   const dataType = mutator?.isHook
     ? `ReturnType<typeof use${pascal(operationName)}Hook>`
     : `typeof ${operationName}`;
+  const tData = `${pascal(name)}QueryResult`;
+  const tError = `${pascal(name)}QueryError`;
 
   return `
-export type ${pascal(
-    name,
-  )}QueryResult = NonNullable<Awaited<ReturnType<${dataType}>>>
-export type ${pascal(name)}QueryError = ${errorType}
+export type ${tData} = Awaited<ReturnType<${dataType}>>
+export type ${tError} = ${errorType}
 
-export const ${camel(
-    `use-${name}`,
-  )} = <TData = Awaited<ReturnType<${dataType}>>, TError = ${errorType}>(\n ${queryProps} ${generateQueryArguments(
-    {
+export const ${camel(`use-${name}`)} = (
+    ${queryProps} 
+    ${generateQueryArguments({
       operationName,
       definitions: '',
       mutator,
       isRequestOptions,
       type,
-    },
-  )}\n  ): ${returnType} & { queryKey: QueryKey } => {
+    })}): UseQueryResult<${tData}, ${tError}> & { queryKey: QueryKey } => {
 
   ${
     isRequestOptions
@@ -461,11 +458,7 @@ export const ${camel(
       : ''
   }
 
-  const queryFn: QueryFunction<Awaited<ReturnType<${
-    mutator?.isHook
-      ? `ReturnType<typeof use${pascal(operationName)}Hook>`
-      : `typeof ${operationName}`
-  }>>> = (${
+  const queryFn: QueryFunction<${tData}> = (${
     queryParam && props.some(({ type }) => type === 'queryParam')
       ? `{ signal, pageParam }`
       : '{ signal }'
@@ -479,11 +472,9 @@ export const ${camel(
       : ''
   });
 
-  const query = ${camel(`use-${type}`)}<Awaited<ReturnType<${
-    mutator?.isHook
-      ? `ReturnType<typeof use${pascal(operationName)}Hook>`
-      : `typeof ${operationName}`
-  }>>, TError, TData>(queryKey, queryFn, ${generateQueryOptions({
+  const query = ${camel(
+    `use-${type}`,
+  )}<${tData}, ${tError}, ${tData}>(queryKey, queryFn, ${generateQueryOptions({
     params,
     options,
     type,
