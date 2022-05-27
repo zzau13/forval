@@ -7,7 +7,7 @@
     "dist"
   ],
   "bin": {
-    "orval": "dist/bin/orval.js"
+    "forval": "dist/bin/orval.js"
   },
   "main": "dist/index.js",
   "keywords": [
