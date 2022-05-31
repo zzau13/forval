@@ -46,9 +46,9 @@ export const generateInterface = async ({
     !generalJSTypesWithArray.includes(scalar.value) &&
     !context?.override?.useTypeOverInterfaces
   ) {
-    model += `export interface ${name} ${scalar.value}\n`;
+    model += `export type ${name} = Readonly<${scalar.value}>;\n`;
   } else {
-    model += `export type ${name} = ${scalar.value};\n`;
+    model += `export type ${name} = Readonly<${scalar.value}>;\n`;
   }
 
   // Filter out imports that refer to the type defined in current file (OpenAPI recursive schema definitions)

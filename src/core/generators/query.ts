@@ -401,13 +401,6 @@ const generateQueryImplementation = ({
         .join(',')
     : properties;
 
-  const returnType = generateQueryReturnType({
-    outputClient,
-    type,
-    isMutatorHook: mutator?.isHook,
-    operationName,
-  });
-
   let errorType = `AxiosError<${response.definition.errors || 'unknown'}>`;
 
   if (mutator) {
@@ -602,11 +595,11 @@ const generateQueryHook = (
     )}MutationResult = NonNullable<Awaited<ReturnType<${dataType}>>>
     ${
       body.definition
-        ? `export type ${pascal(operationName)}MutationBody = ${
+        ? `export type ${pascal(operationName)}MutationBody = Readonly<${
             mutator?.bodyTypeName
               ? `${mutator.bodyTypeName}<${body.definition}>`
               : body.definition
-          }`
+          }>;`
         : ''
     }
     export type ${pascal(operationName)}MutationError = ${errorType}

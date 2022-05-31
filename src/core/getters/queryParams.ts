@@ -95,7 +95,7 @@ export const getQueryParams = async ({
 
   const schema = {
     name,
-    model: `export type ${name} = { ${type} };\n`,
+    model: `export type ${name} = Readonly<{ ${type} }>;\n`,
     imports,
   };
 

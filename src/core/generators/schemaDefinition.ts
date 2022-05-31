@@ -72,7 +72,7 @@ export const generateSchemasDefinition = async (
           );
 
           if (!imp) {
-            output += `export type ${schemaName} = ${resolvedValue.value};\n`;
+            output += `export type ${schemaName} = Readonly<${resolvedValue.value}>;\n`;
           } else {
             const alias = imp?.specKey
               ? `${pascal(getSpecName(imp.specKey, context.specKey))}${
@@ -80,14 +80,14 @@ export const generateSchemasDefinition = async (
                 }`
               : `${resolvedValue.value}Bis`;
 
-            output += `export type ${schemaName} = ${alias};\n`;
+            output += `export type ${schemaName} = Readonly<${alias}>;\n`;
 
             imports = imports.map((imp) =>
               imp.name === schemaName ? { ...imp, alias } : imp,
             );
           }
         } else {
-          output += `export type ${schemaName} = ${resolvedValue.value};\n`;
+          output += `export type ${schemaName} = Readonly<${resolvedValue.value}>;\n`;
         }
 
         acc.push(...resolvedValue.schemas, {

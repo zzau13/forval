@@ -94,13 +94,11 @@ const generateAxiosImplementation = (
     returnTypesToWrite.set(
       operationName,
       (title?: string) =>
-        `export type ${pascal(
-          operationName,
-        )}Result = NonNullable<Awaited<ReturnType<${
+        `export type ${pascal(operationName)}Result = Awaited<ReturnType<${
           title
             ? `ReturnType<typeof ${title}>['${operationName}']`
             : `typeof ${operationName}`
-        }>>>`,
+        }>>`,
     );
 
     return `const ${operationName} = (\n    ${toObjectString(

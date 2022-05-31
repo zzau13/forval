@@ -37,9 +37,9 @@ export const generateParameterDefinition = (
                 },
               ]
             : [],
-          model: `export type ${modelName} = ${
+          model: `export type ${modelName} = Readonly<${
             imports.length ? imports[0].name : 'unknown'
-          };\n`,
+          }>;\n`,
         });
 
         return acc;
@@ -53,9 +53,9 @@ export const generateParameterDefinition = (
 
       const doc = jsDoc(parameter as ParameterObject);
 
-      const model = `${doc}export type ${modelName} = ${
+      const model = `${doc}export type ${modelName} = Readonly<${
         resolvedObject.value || 'unknown'
-      };\n`;
+      }>;\n`;
 
       acc.push(...resolvedObject.schemas);
 
