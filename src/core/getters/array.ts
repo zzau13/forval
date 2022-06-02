@@ -24,7 +24,7 @@ export const getArray = async ({
       context,
     });
     return {
-      value: `${resolvedObject.value}[]`,
+      value: `readonly ${resolvedObject.value}[]`,
       imports: resolvedObject.imports,
       schemas: resolvedObject.schemas,
       isEnum: false,
