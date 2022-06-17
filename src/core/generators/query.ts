@@ -536,6 +536,7 @@ const generateQueryHook = (
     const queryKeyFnName = camel(`get-${operationName}-queryKey`);
     const queryProps = toObjectString(props, 'implementation');
 
+    // TODO: What happens if I do `{ foo: 1 } === { foo: 1 }`? awesome
     return `export const ${queryKeyFnName} = (${queryProps}) => [\`${route}\`${
       queryParams ? ', ...(params ? [params]: [])' : ''
     }${body.implementation ? `, ${body.implementation}` : ''}];

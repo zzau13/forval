@@ -32,17 +32,23 @@
     "vue",
     "swr"
   ],
-  "author": {
-    "name": "Victor Bury",
-    "email": "bury.victor@gmail.com"
-  },
+  "authors": [
+    {
+      "name": "Victor Bury",
+      "email": "bury.victor@gmail.com"
+    },
+    {
+      "name": "Juan Aguilar Santillana",
+      "email": "mhpoin@gmail.com"
+    }
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/anymaniax/orval"
+    "url": "https://github.com/botika/orval"
   },
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "tsup ./src/bin/orval.ts ./src/index.ts --minify --clean --dts",
+    "build": "tsupparams ./src/bin/orval.ts ./src/index.ts --minify --clean --dts",
     "dev": "tsup ./src/bin/orval.ts ./src/index.ts --clean --watch src --onSuccess 'pnpm generate-api'",
     "lint": "eslint src/**/*.ts",
     "test": "vitest --global test.ts",

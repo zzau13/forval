@@ -1,4 +1,4 @@
-import { defineConfig } from 'orval';
+import { defineConfig } from 'forval';
 
 export default defineConfig({
   basic: {
