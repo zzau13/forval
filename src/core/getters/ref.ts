@@ -27,18 +27,11 @@ const regex = new RegExp('~1', 'g');
 
 /**
  * Return the output type from the $ref
- *
- * @param $ref
  */
-export const getRefInfo = async (
+export const getRefInfo = (
   $ref: ReferenceObject['$ref'],
   context: ContextSpecs,
-): Promise<{
-  name: string;
-  originalName: string;
-  refPaths: string[];
-  specKey?: string;
-}> => {
+) => {
   const [pathname, ref] = $ref.split('#');
 
   const refPaths = ref

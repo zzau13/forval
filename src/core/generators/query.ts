@@ -335,35 +335,6 @@ const generateQueryArguments = ({
   }}\n`;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const generateQueryReturnType = ({
-  outputClient,
-  type,
-  isMutatorHook,
-  operationName,
-}: {
-  outputClient: OutputClient | OutputClientFunc;
-  type: QueryType;
-  isMutatorHook?: boolean;
-  operationName: string;
-}) => {
-  switch (outputClient) {
-    case OutputClient.SVELTE_QUERY:
-      return `Use${pascal(type)}StoreResult<Awaited<ReturnType<${
-        isMutatorHook
-          ? `ReturnType<typeof use${pascal(operationName)}Hook>`
-          : `typeof ${operationName}`
-      }>>, TError, TData, QueryKey>`;
-    case OutputClient.VUE_QUERY:
-      return ` UseQueryReturnType<TData, TError, Use${pascal(
-        type,
-      )}Result<TData, TError>>`;
-    case OutputClient.REACT_QUERY:
-    default:
-      return ` Use${pascal(type)}Result<TData, TError>`;
-  }
-};
-
 const generateQueryImplementation = ({
   queryOption: { name, queryParam, options, type },
   operationName,

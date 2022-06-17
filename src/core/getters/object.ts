@@ -29,7 +29,7 @@ export const getObject = async ({
   nullable: string;
 }) => {
   if (isReference(item)) {
-    const { name, specKey } = await getRefInfo(item.$ref, context);
+    const { name, specKey } = getRefInfo(item.$ref, context);
     return {
       value: name + nullable,
       imports: [{ name, specKey }],

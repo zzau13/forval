@@ -45,7 +45,7 @@ export const resolveRef = async <
     return { schema: schema as Schema, imports };
   }
 
-  const { name, originalName, specKey, refPaths } = await getRefInfo(
+  const { name, originalName, specKey, refPaths } = getRefInfo(
     schema.$ref,
     context,
   );

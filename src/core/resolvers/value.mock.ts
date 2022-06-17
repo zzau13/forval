@@ -59,8 +59,9 @@ export const resolveMockValue = async ({
   context: ContextSpecs;
   imports: GeneratorImport[];
 }) => {
+  // TODO: what? schema is typed
   if (isReference(schema)) {
-    const { name, specKey } = await getRefInfo(schema.$ref, {
+    const { name, specKey } = getRefInfo(schema.$ref, {
       ...context,
       specKey: schema.specKey || context.specKey,
     });
