@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { build, PluginBuild } from 'esbuild';
 import fs from 'fs';
-import glob from 'globby';
+import { globby } from 'globby';
 import mm from 'micromatch';
 import path from 'path';
 import {
@@ -48,6 +48,7 @@ const debug = createDebugger('orval:file-load');
 
 const cache = new Map<string, { file?: unknown; error?: unknown }>();
 
+// TODO: follon de tipos. Como vas a decirle a la funcion el tipo que tiene que devolver?
 export async function loadFile<File = unknown>(
   filePath?: string,
   options?: {
@@ -129,6 +130,8 @@ export async function loadFile<File = unknown>(
     return {
       path: normalizeResolvedPath,
       ...cachedData,
+      // TODO: follon de tipos. esto es demencial
+      file: cachedData.file as any,
       cached: true,
     };
   }
@@ -178,7 +181,8 @@ export async function loadFile<File = unknown>(
       if (load) {
         file = await loadFromBundledFile<File>(resolvedPath, code, isDefault);
       } else {
-        file = code as unknown;
+        // TODO: follon de tipos
+        file = code as any;
       }
 
       debug(`bundled file loaded in ${Date.now() - start}ms`);
@@ -368,7 +372,7 @@ async function loadFromBundledFile<File = unknown>(
 }
 
 export async function removeFiles(patterns: string[], dir: string) {
-  const files = await glob(patterns, {
+  const files = await globby(patterns, {
     cwd: dir,
     absolute: true,
   });

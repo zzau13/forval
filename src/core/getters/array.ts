@@ -4,8 +4,6 @@ import { resolveObject } from '../resolvers/object';
 
 /**
  * Return the output type from an array
- *
- * @param item item with type === "array"
  */
 export const getArray = async ({
   schema,

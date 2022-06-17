@@ -7,9 +7,6 @@ import { getScalar } from '../getters/scalar';
 /**
  * Generate the interface string
  * A eslint|tslint comment is insert if the resulted object is empty
- *
- * @param name interface name
- * @param schema
  */
 export const generateInterface = async ({
   name,

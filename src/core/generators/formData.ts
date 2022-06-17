@@ -11,10 +11,7 @@ export const generateSchemaFormDataAndUrlEncoded = async (
   context: ContextSpecs,
   isUrlEncoded?: boolean,
 ) => {
-  const { schema, imports } = await resolveRef<SchemaObject>(
-    schemaObject,
-    context,
-  );
+  const { schema, imports } = resolveRef<SchemaObject>(schemaObject, context);
   const propName = isReference(schemaObject) ? imports[0].name : name;
 
   const variableName = isUrlEncoded ? 'formUrlEncoded' : 'formData';

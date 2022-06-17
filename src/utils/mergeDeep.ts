@@ -14,7 +14,8 @@ export function mergeDeep<T extends Record<string, unknown>>(
     if (Array.isArray(sourceValue) && Array.isArray(value)) {
       (acc[key] as unknown) = [...sourceValue, ...value];
     } else if (isObject(sourceValue) && isObject(value)) {
-      (acc[key] as unknown) = mergeDeep(sourceValue, value);
+      // TODO: follon de tipos
+      (acc[key] as unknown) = mergeDeep(sourceValue as any, value as any);
     } else {
       (acc[key] as unknown) = value;
     }

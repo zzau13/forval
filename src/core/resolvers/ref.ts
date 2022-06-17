@@ -15,8 +15,8 @@ type ComponentObject =
   | ResponseObject
   | ParameterObject
   | RequestBodyObject;
-export const resolveRef = <Schema extends ComponentObject>(
-  schema: Schema,
+export const resolveRef = <Schema extends ComponentObject = ComponentObject>(
+  schema: ComponentObject,
   context: ContextSpecs,
   imports: GeneratorImport[] = [],
 ): {
@@ -35,7 +35,6 @@ export const resolveRef = <Schema extends ComponentObject>(
     };
   }
 
-  // TODO: what is this
   if (!isReference(schema)) {
     return { schema: schema as Schema, imports };
   }

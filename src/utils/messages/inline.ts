@@ -1,4 +1,5 @@
 import { InfoObject } from 'openapi3-ts';
+// @ts-ignore
 import pkg from '../../../package.json';
 
 export const getFilesHeader = ({ title, description, version }: InfoObject) => [

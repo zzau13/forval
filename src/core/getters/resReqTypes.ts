@@ -56,10 +56,7 @@ export const getResReqTypes = async (
           const {
             schema: bodySchema,
             imports: [{ name, specKey, schemaName }],
-          } = await resolveRef<RequestBodyObject | ResponseObject>(
-            res,
-            context,
-          );
+          } = resolveRef<RequestBodyObject | ResponseObject>(res, context);
 
           const [contentType, mediaType] =
             Object.entries(bodySchema.content ?? {})[0] ?? [];

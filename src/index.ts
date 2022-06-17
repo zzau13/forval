@@ -11,7 +11,7 @@ const generate = async (
   workspace = process.cwd(),
   options?: GlobalOptions,
 ) => {
-  if (!optionsExport || isString(optionsExport)) {
+  if (isString(optionsExport)) {
     return generateConfig(optionsExport, options);
   }
 

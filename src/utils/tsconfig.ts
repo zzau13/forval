@@ -1,4 +1,4 @@
-import findUp from 'find-up';
+import { findUp } from 'find-up';
 import { existsSync } from 'fs-extra';
 import { parse } from 'tsconfck';
 import { Tsconfig } from '../types';

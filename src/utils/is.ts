@@ -7,10 +7,14 @@ import { Verbs } from '../types';
  *
  * @param property
  */
-export const isReference = (property: {
-  $ref: unknown;
-}): property is ReferenceObject => {
-  return Boolean(property.$ref);
+export const isReference = (property: unknown): property is ReferenceObject => {
+  return Boolean(
+    (
+      property as {
+        $ref: unknown;
+      }
+    ).$ref,
+  );
 };
 
 export const isDirectory = (path: string) => {

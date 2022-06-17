@@ -106,7 +106,8 @@ export const getGithubOpenApi = async (url: string) => {
       }
     }
 
-    return body.data?.repository?.object.text;
+    // TODO: follon de tipos. muerte cerebral
+    return (body.data?.repository as any)?.object.text;
   } catch (e) {
     if (!e.body) {
       throw `Oups... 🍻. ${e}`;

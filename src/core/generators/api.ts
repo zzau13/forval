@@ -24,8 +24,8 @@ export const generateApi = async ({
       let resolvedVerbs = verbs;
       let resolvedContext = context;
 
-      if (isReference(verbs)) {
-        const { schema, imports } = await resolveRef(verbs, context);
+      if (isReference(verbs as unknown)) {
+        const { schema, imports } = resolveRef(verbs, context);
 
         resolvedVerbs = schema;
 

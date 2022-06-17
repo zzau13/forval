@@ -7,8 +7,11 @@ import { jsDoc } from '../../utils/doc';
 import { resolveObject } from '../resolvers/object';
 import { resolveRef } from '../resolvers/ref';
 
-export const generateParameterDefinition = (
-  parameters: ComponentsObject['parameters'] = {},
+// TODO: madre mia el follon que lleva con los tipos
+export const generateParameterDefinition = <
+  P extends ComponentsObject['parameters'],
+>(
+  parameters: P,
   context: ContextSpecs,
   suffix: string,
 ) => {
@@ -16,16 +19,14 @@ export const generateParameterDefinition = (
     Object.entries(parameters),
     async (acc, [parameterName, parameter]) => {
       const modelName = `${pascal(parameterName)}${suffix}`;
-      const { schema, imports } = await resolveRef<ParameterObject>(
-        parameter,
-        context,
-      );
+      const { schema, imports } = resolveRef(parameter, context);
 
-      if (schema.in !== 'query') {
+      // TODO: madre mia el follon que lleva con los tipos
+      if ((schema as any).in !== 'query') {
         return acc;
       }
 
-      if (!schema.schema || imports.length) {
+      if (imports.length) {
         acc.push({
           name: modelName,
           imports: imports.length
@@ -46,7 +47,8 @@ export const generateParameterDefinition = (
       }
 
       const resolvedObject = await resolveObject({
-        schema: schema.schema,
+        // TODO: madre mia el follon que lleva con los tipos
+        schema: (schema as any).schema,
         propName: modelName,
         context,
       });

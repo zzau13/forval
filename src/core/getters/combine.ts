@@ -81,7 +81,7 @@ export const combineSchemas = async ({
   if (isAllEnums && name && items.length > 1) {
     const newEnum = `\n\n// eslint-disable-next-line @typescript-eslint/no-redeclare\nexport const ${pascal(
       name,
-    )} = ${getCombineEnumValue(resolvedData, name)}`;
+    )} = ${getCombineEnumValue(resolvedData)}`;
 
     return {
       value:

@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { log } from 'console';
-import execa from 'execa';
+import { execa } from 'execa';
 import { appendFile, outputFile, pathExists, readFile } from 'fs-extra';
 import uniq from 'lodash.uniq';
 import { InfoObject } from 'openapi3-ts';

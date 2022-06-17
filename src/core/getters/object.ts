@@ -14,8 +14,6 @@ import { getRefInfo } from './ref';
 
 /**
  * Return the output type from an object
- *
- * @param item item with type === "object"
  */
 export const getObject = async ({
   item,

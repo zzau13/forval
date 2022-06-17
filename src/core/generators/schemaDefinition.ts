@@ -13,8 +13,6 @@ import { generateInterface } from './interface';
 
 /**
  * Extract all types from #/components/schemas
- *
- * @param schemas
  */
 export const generateSchemasDefinition = async (
   schemas: SchemasObject = {},
