@@ -55,7 +55,7 @@
     "fmt:check": "prettier --check '**/*.{md,prisma,json}'",
     "prebuild": "rimraf dist",
     "build": "tsc -p tsconfig.build.json",
-    "test": "vitest --global test.ts",
+    "test": "vitest test.ts",
     "format": "prettier --write .",
     "format:staged": "pretty-quick --staged",
     "prerelease": "yarn build && cd ./tests && yarn generate && yarn build",
