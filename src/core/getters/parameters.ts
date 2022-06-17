@@ -11,7 +11,7 @@ export const getParameters = async ({
 }: {
   parameters: (ReferenceObject | ParameterObject)[];
   context: ContextSpecs;
-}): Promise<GetterParameters> => {
+}) => {
   return asyncReduce(
     parameters,
     async (acc, p) => {

@@ -17,7 +17,7 @@ export const writeSingleMode = async ({
   output,
   specsName,
   header,
-}: WriteModeProps): Promise<string[]> => {
+}: WriteModeProps) => {
   try {
     const { path, dirname } = getFileInfo(output.target, {
       backupFilename: camel(info.title),

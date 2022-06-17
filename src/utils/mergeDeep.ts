@@ -1,6 +1,6 @@
 const isObject = (obj: unknown) => obj && typeof obj === 'object';
 
-export function mergeDeep<T extends Record<string, any>>(
+export function mergeDeep<T extends Record<string, unknown>>(
   source: T,
   target: T,
 ): T {
@@ -12,11 +12,11 @@ export function mergeDeep<T extends Record<string, any>>(
     const sourceValue = acc[key];
 
     if (Array.isArray(sourceValue) && Array.isArray(value)) {
-      (acc[key] as any) = [...sourceValue, ...value];
+      (acc[key] as unknown) = [...sourceValue, ...value];
     } else if (isObject(sourceValue) && isObject(value)) {
-      (acc[key] as any) = mergeDeep(sourceValue, value);
+      (acc[key] as unknown) = mergeDeep(sourceValue, value);
     } else {
-      (acc[key] as any) = value;
+      (acc[key] as unknown) = value;
     }
 
     return acc;

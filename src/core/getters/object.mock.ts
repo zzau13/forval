@@ -2,7 +2,6 @@ import cuid from 'cuid';
 import { ReferenceObject, SchemaObject } from 'openapi3-ts';
 import { ContextSpecs, MockOptions } from '../../types';
 import { GeneratorImport } from '../../types/generator';
-import { MockDefinition } from '../../types/mocks';
 import { isBoolean, isReference } from '../../utils/is';
 import { count } from '../../utils/occurrence';
 import { resolveMockValue } from '../resolvers/value.mock';
@@ -25,7 +24,7 @@ export const getMockObject = async ({
   combine?: { properties: string[] };
   context: ContextSpecs;
   imports: GeneratorImport[];
-}): Promise<MockDefinition> => {
+}) => {
   if (isReference(item)) {
     return resolveMockValue({
       schema: {

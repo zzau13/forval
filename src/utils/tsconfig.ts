@@ -8,7 +8,7 @@ import { normalizePath } from './options';
 export const loadTsconfig = async (
   tsconfig?: Tsconfig | string,
   workspace = process.cwd(),
-): Promise<Tsconfig | undefined> => {
+) => {
   if (isUndefined(tsconfig)) {
     const configPath = await findUp(['tsconfig.json', 'jsconfig.json'], {
       cwd: workspace,

@@ -139,7 +139,7 @@ const generateAxiosImplementation = (
     response.definition.success || 'unknown'
   }>>(\n    ${toObjectString(props, 'implementation')} ${
     isRequestOptions ? `options?: AxiosRequestConfig\n` : ''
-  } ): Promise<TData> => {${bodyForm}
+  } ) => {${bodyForm}
     return axios${
       !isSyntheticDefaultImportsAllowed ? '.default' : ''
     }.${verb}(${options});

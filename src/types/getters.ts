@@ -39,6 +39,7 @@ export type GetterParam = {
   default: boolean;
   required: boolean;
   imports: GeneratorImport[];
+  fields?: string;
 };
 
 export type GetterParams = GetterParam[];

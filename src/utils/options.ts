@@ -138,8 +138,9 @@ export const normalizeOptions = async (
         header:
           outputOptions.override?.header === false
             ? false
-            : isFunction(outputOptions.override?.header)
-            ? outputOptions.override?.header!
+            : outputOptions.override?.header &&
+              isFunction(outputOptions.override?.header)
+            ? outputOptions.override.header
             : getFilesHeader,
         requestOptions: outputOptions.override?.requestOptions ?? true,
         components: {
@@ -195,7 +196,7 @@ const parserDefaultOptions = {
   resolve: { github: githubResolver },
 } as SwaggerParserOptions;
 
-const normalizeMutator = <T>(
+const normalizeMutator = (
   workspace: string,
   mutator?: Mutator,
 ): NormalizedMutator | undefined => {

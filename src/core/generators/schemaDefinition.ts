@@ -1,4 +1,4 @@
-const isEmpty = require('lodash.isempty');
+import isEmpty from 'lodash.isempty';
 import { SchemasObject } from 'openapi3-ts';
 import { ContextSpecs } from '../../types';
 import { GeneratorSchema } from '../../types/generator';
@@ -20,7 +20,7 @@ export const generateSchemasDefinition = async (
   schemas: SchemasObject = {},
   context: ContextSpecs,
   suffix: string,
-): Promise<GeneratorSchema[]> => {
+) => {
   if (isEmpty(schemas)) {
     return [];
   }

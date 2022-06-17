@@ -5,7 +5,7 @@ export const dynamicImport = async <T>(
   toImport: T | string,
   from = process.cwd(),
   takeDefault = true,
-): Promise<T> => {
+) => {
   if (!toImport) {
     return toImport as T;
   }
@@ -15,7 +15,7 @@ export const dynamicImport = async <T>(
       const path = resolve(from, toImport);
       const data = await import(path);
       if (takeDefault && isObject(data) && data.default) {
-        return (data as any).default as T;
+        return (data as { default: T }).default;
       }
 
       return data;

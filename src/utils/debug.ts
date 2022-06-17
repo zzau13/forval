@@ -14,6 +14,8 @@ export function createDebugger(
   const log = debug(ns);
   const { onlyWhenFocused } = options;
   const focus = typeof onlyWhenFocused === 'string' ? onlyWhenFocused : ns;
+  // TODO:
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (msg: string, ...args: any[]) => {
     if (filter && !msg.includes(filter)) {
       return;

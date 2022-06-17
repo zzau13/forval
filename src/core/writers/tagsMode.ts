@@ -18,7 +18,7 @@ export const writeTagsMode = async ({
   output,
   specsName,
   header,
-}: WriteModeProps): Promise<string[]> => {
+}: WriteModeProps) => {
   const { filename, dirname, extension } = getFileInfo(output.target, {
     backupFilename: camel(info.title),
   });

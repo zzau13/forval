@@ -27,7 +27,7 @@ export const getObject = async ({
   name?: string;
   context: ContextSpecs;
   nullable: string;
-}): Promise<ResolverValue> => {
+}) => {
   if (isReference(item)) {
     const { name, specKey } = await getRefInfo(item.$ref, context);
     return {

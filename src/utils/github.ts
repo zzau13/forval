@@ -73,7 +73,7 @@ export const getGithubAcessToken = async (githubTokenPath: string) => {
   }
 };
 
-export const getGithubOpenApi = async (url: string): Promise<string> => {
+export const getGithubOpenApi = async (url: string) => {
   const githubTokenPath = join(__dirname, '.githubToken');
   const accessToken = await getGithubAcessToken(githubTokenPath);
   const [info] = url.split('github.com/').slice(-1);
@@ -83,7 +83,7 @@ export const getGithubOpenApi = async (url: string): Promise<string> => {
 
   try {
     const { body } = await request<{
-      data?: { repository: any };
+      data?: { repository: unknown };
       errors?: { type: string }[];
     }>(...getGithubSpecReq({ accessToken, repo, owner, branch, path }));
     if (body.errors?.length) {

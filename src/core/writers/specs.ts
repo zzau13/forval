@@ -126,7 +126,7 @@ export const writeSpecs = async (
 
   if (output.workspace) {
     const workspacePath = output.workspace;
-    let imports = implementationPaths
+    const imports = implementationPaths
       .filter((path) => !path.endsWith('.msw.ts'))
       .map((path) =>
         relativeSafe(workspacePath, getFileInfo(path).pathWithoutExtension),

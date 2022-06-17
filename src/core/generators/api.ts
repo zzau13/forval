@@ -8,6 +8,7 @@ import { resolveRef } from '../resolvers/ref';
 import { generateClient } from './client';
 import { generateVerbsOptions } from './verbsOptions';
 
+//
 export const generateApi = async ({
   output,
   context,

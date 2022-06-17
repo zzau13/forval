@@ -335,6 +335,7 @@ const generateQueryArguments = ({
   }}\n`;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const generateQueryReturnType = ({
   outputClient,
   type,
@@ -374,7 +375,6 @@ const generateQueryImplementation = ({
   mutator,
   isRequestOptions,
   response,
-  outputClient,
 }: {
   queryOption: {
     name: string;
@@ -493,7 +493,7 @@ const generateQueryHook = (
     response,
     operationId,
   }: GeneratorVerbOptions,
-  { route, override: { operations = {} }, context }: GeneratorOptions,
+  { route, override: { operations = {} } }: GeneratorOptions,
   outputClient: OutputClient | OutputClientFunc,
 ) => {
   const query = override?.query;

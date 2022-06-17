@@ -74,7 +74,7 @@ const prep = (s: string, isFill = false, isPascal = false, isUpper = false) => {
     s = low.call(s);
   }
   if (!isFill && !regexps.hole.test(s)) {
-    var holey = fill(s, ' ');
+    const holey = fill(s, ' ');
     if (regexps.hole.test(holey)) {
       s = holey;
     }

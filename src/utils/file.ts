@@ -19,7 +19,7 @@ import { isDirectory } from './is';
 import { createLogger, LogLevel } from './messages/logs';
 
 export const getFileInfo = (
-  target: string = '',
+  target = '',
   {
     backupFilename = 'filename',
     extension = '.ts',
@@ -46,9 +46,9 @@ export const getFileInfo = (
 
 const debug = createDebugger('orval:file-load');
 
-const cache = new Map<string, { file?: any; error?: any }>();
+const cache = new Map<string, { file?: unknown; error?: unknown }>();
 
-export async function loadFile<File = any>(
+export async function loadFile<File = unknown>(
   filePath?: string,
   options?: {
     root?: string;
@@ -62,7 +62,7 @@ export async function loadFile<File = any>(
 ): Promise<{
   path: string;
   file?: File;
-  error?: any;
+  error?: unknown;
   cached?: boolean;
 }> {
   const {
@@ -178,7 +178,7 @@ export async function loadFile<File = any>(
       if (load) {
         file = await loadFromBundledFile<File>(resolvedPath, code, isDefault);
       } else {
-        file = code as any;
+        file = code as unknown;
       }
 
       debug(`bundled file loaded in ${Date.now() - start}ms`);
@@ -190,7 +190,7 @@ export async function loadFile<File = any>(
       path: normalizeResolvedPath,
       file,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     cache.set(resolvedPath, { error });
 
     return {
@@ -339,7 +339,7 @@ async function bundleFile(
 }
 
 interface NodeModuleWithCompile extends NodeModule {
-  _compile(code: string, filename: string): any;
+  _compile(code: string, filename: string): unknown;
 }
 
 async function loadFromBundledFile<File = unknown>(
@@ -348,6 +348,7 @@ async function loadFromBundledFile<File = unknown>(
   isDefault: boolean,
 ): Promise<File> {
   const extension = path.extname(fileName);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const defaultLoader = require.extensions[extension]!;
   require.extensions[extension] = (module: NodeModule, filename: string) => {
     if (filename === fileName) {
@@ -358,6 +359,8 @@ async function loadFromBundledFile<File = unknown>(
   };
   // clear cache in case of server restart
   delete require.cache[require.resolve(fileName)];
+  // TODO
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const raw = require(fileName);
   const file = isDefault && raw.__esModule ? raw.default : raw;
   require.extensions[extension] = defaultLoader;

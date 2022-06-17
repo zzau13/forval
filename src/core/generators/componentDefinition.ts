@@ -1,4 +1,4 @@
-const isEmpty = require('lodash.isempty');
+import isEmpty from 'lodash.isempty';
 import {
   ComponentsObject,
   ReferenceObject,
@@ -6,7 +6,7 @@ import {
   ResponseObject,
 } from 'openapi3-ts';
 import { ContextSpecs } from '../../types';
-import { GeneratorImport, GeneratorSchema } from '../../types/generator';
+import { GeneratorSchema } from '../../types/generator';
 import { asyncReduce } from '../../utils/async-reduce';
 import { pascal } from '../../utils/case';
 import { jsDoc } from '../../utils/doc';
@@ -18,7 +18,7 @@ export const generateComponentDefinition = (
     | ComponentsObject['requestBodies'] = {},
   context: ContextSpecs,
   suffix: string,
-): Promise<GeneratorSchema[]> => {
+) => {
   if (isEmpty(responses)) {
     return Promise.resolve([]);
   }

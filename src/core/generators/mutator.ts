@@ -1,7 +1,7 @@
 import { Parser } from 'acorn';
 import chalk from 'chalk';
 import { readFile } from 'fs-extra';
-import { GeneratorMutator, GeneratorMutatorParsingInfo } from '../..';
+import { GeneratorMutatorParsingInfo } from '../..';
 import { NormalizedMutator, Tsconfig } from '../../types';
 import { pascal } from '../../utils/case';
 import { getFileInfo, loadFile } from '../../utils/file';
@@ -32,7 +32,7 @@ export const generateMutator = async ({
   name: string;
   workspace: string;
   tsconfig?: Tsconfig;
-}): Promise<GeneratorMutator | undefined> => {
+}) => {
   if (!mutator || !output) {
     return;
   }

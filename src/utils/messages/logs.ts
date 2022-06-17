@@ -111,7 +111,8 @@ export function createLogger(
   const clear =
     allowClearScreen && process.stdout.isTTY && !process.env.CI
       ? clearScreen
-      : () => {};
+      : // eslint-disable-next-line @typescript-eslint/no-empty-function
+        () => {};
 
   function output(type: LogType, msg: string, options: LogOptions = {}) {
     if (thresh >= LogLevels[type]) {

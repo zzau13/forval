@@ -1,13 +1,13 @@
 import chalk from 'chalk';
-import { OpenAPIObject } from 'openapi3-ts';
 import swagger2openapi from 'swagger2openapi';
 import { log } from './messages/logs';
 
 export const swaggerConverter = async (
-  schema: any,
+  // TODO
+  schema: { openapi?: string; swagger?: string },
   options: swagger2openapi.Options = {},
   specKey: string,
-): Promise<OpenAPIObject> => {
+) => {
   try {
     return new Promise((resolve) => {
       if (!schema.openapi && schema.swagger === '2.0') {

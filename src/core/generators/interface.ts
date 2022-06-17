@@ -15,7 +15,6 @@ export const generateInterface = async ({
   name,
   schema,
   context,
-  suffix,
 }: {
   name: string;
   schema: SchemaObject;

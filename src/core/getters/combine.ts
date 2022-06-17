@@ -108,10 +108,7 @@ export const combineSchemas = async ({
   };
 };
 
-const getCombineEnumValue = (
-  { values, isRef, types }: CombinedData,
-  name: string,
-) => {
+const getCombineEnumValue = ({ values, isRef, types }: CombinedData) => {
   if (values.length === 1) {
     if (isRef[0]) {
       return values[0];

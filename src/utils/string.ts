@@ -10,7 +10,7 @@ import {
 } from './is';
 
 export const stringify = (
-  data?: string | any[] | { [key: string]: any },
+  data?: string | unknown | unknown[] | { [key: string]: unknown },
 ): string | undefined => {
   if (isUndefined(data) || isNull(data)) {
     return;
@@ -28,22 +28,25 @@ export const stringify = (
     return `[${data.map(stringify).join(', ')}]`;
   }
 
-  return Object.entries(data).reduce((acc, [key, value], index, arr) => {
-    const strValue = stringify(value);
-    if (arr.length === 1) {
-      return `{ ${key}: ${strValue}, }`;
-    }
+  return Object.entries(data as object).reduce(
+    (acc, [key, value], index, arr) => {
+      const strValue = stringify(value);
+      if (arr.length === 1) {
+        return `{ ${key}: ${strValue}, }`;
+      }
 
-    if (!index) {
-      return `{ ${key}: ${strValue}, `;
-    }
+      if (!index) {
+        return `{ ${key}: ${strValue}, `;
+      }
 
-    if (arr.length - 1 === index) {
-      return acc + `${key}: ${strValue}, }`;
-    }
+      if (arr.length - 1 === index) {
+        return acc + `${key}: ${strValue}, }`;
+      }
 
-    return acc + `${key}: ${strValue}, `;
-  }, '');
+      return acc + `${key}: ${strValue}, `;
+    },
+    '',
+  );
 };
 
 export const sanitize = (
@@ -116,5 +119,5 @@ export const getNumberWord = (num: number) => {
   return arrayOfNumber.reduce((acc, n) => acc + NUMBERS[n], '');
 };
 
-export const escape = (str: string, char: string = "'") =>
+export const escape = (str: string, char = "'") =>
   str.replace(char, `\\${char}`);

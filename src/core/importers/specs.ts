@@ -3,7 +3,6 @@ import chalk from 'chalk';
 import { log } from 'console';
 import { resolve } from 'upath';
 import { NormalizedOptions, SwaggerParserOptions } from '../../types';
-import { WriteSpecsProps } from '../../types/writers';
 import { isObject } from '../../utils/is';
 import { isUrl } from '../../utils/url';
 import { importOpenApi } from './openApi';
@@ -39,7 +38,7 @@ const resolveSpecs = async (
 export const importSpecs = async (
   workspace: string,
   options: NormalizedOptions,
-): Promise<WriteSpecsProps> => {
+) => {
   const { input, output } = options;
 
   if (isObject(input.target)) {

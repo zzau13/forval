@@ -83,7 +83,7 @@ export type NormalizedOverrideOutput = {
     route: string,
     verb: Verbs,
   ) => string;
-  requestOptions: Record<string, any> | boolean;
+  requestOptions: Record<string, unknown> | boolean;
   useDates?: boolean;
   useTypeOverInterfaces?: boolean;
 };
@@ -238,7 +238,7 @@ export type OverrideOutput = {
     route: string,
     verb: Verbs,
   ) => string;
-  requestOptions?: Record<string, any> | boolean;
+  requestOptions?: Record<string, unknown> | boolean;
   useDates?: boolean;
   useTypeOverInterfaces?: boolean;
 };
@@ -247,7 +247,7 @@ type QueryOptions = {
   useQuery?: boolean;
   useInfinite?: boolean;
   useInfiniteQueryParam?: string;
-  options?: any;
+  options?: unknown;
 };
 
 export type AngularOptions = {

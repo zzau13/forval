@@ -47,10 +47,10 @@ export const getResReqTypes = async (
   name: string,
   context: ContextSpecs,
   defaultType = 'unknown',
-): Promise<ResReqTypesValue[]> => {
+) => {
   const typesArray = await Promise.all(
     responsesOrRequests
-      .filter(([_, res]) => Boolean(res))
+      .filter(([, res]) => Boolean(res))
       .map(async ([key, res]) => {
         if (isReference(res)) {
           const {

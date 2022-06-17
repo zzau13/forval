@@ -1,6 +1,5 @@
 import { ResponsesObject } from 'openapi3-ts';
 import { ContextSpecs } from '../../types';
-import { GetterResponse } from '../../types/getters';
 import { ResReqTypesValue } from '../../types/resolvers';
 import { getResReqTypes } from './resReqTypes';
 
@@ -8,7 +7,7 @@ export const getResponse = async (
   responses: ResponsesObject,
   operationName: string,
   context: ContextSpecs,
-): Promise<GetterResponse> => {
+) => {
   if (!responses) {
     return {
       imports: [],

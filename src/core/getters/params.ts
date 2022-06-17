@@ -1,5 +1,5 @@
 import { ContextSpecs } from '../../types';
-import { GetterParameters, GetterParams } from '../../types/getters';
+import { GetterParameters } from '../../types/getters';
 import { camel } from '../../utils/case';
 import { sanitize, stringify } from '../../utils/string';
 import { resolveValue } from '../resolvers/value';
@@ -36,7 +36,7 @@ export const getParams = ({
   pathParams?: GetterParameters['query'];
   operationId: string;
   context: ContextSpecs;
-}): Promise<GetterParams> => {
+}) => {
   const params = getParamsInPath(route);
   return Promise.all(
     params.map(async (p) => {
@@ -98,6 +98,7 @@ export const getParams = ({
           : `= ${stringify(resolvedValue.originalSchema!.default)}`
       }`;
 
+      console.log(resolvedValue);
       return {
         name,
         definition,

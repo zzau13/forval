@@ -5,7 +5,6 @@ import {
   PathItemObject,
   ReferenceObject,
 } from 'openapi3-ts';
-import { keyword } from 'esutils';
 import {
   ContextSpecs,
   NormalizedOperationOptions,
@@ -47,7 +46,7 @@ const generateVerbOptions = async ({
   verbParameters?: Array<ReferenceObject | ParameterObject>;
   components?: ComponentsObject;
   context: ContextSpecs;
-}): Promise<GeneratorVerbOptions> => {
+}) => {
   const {
     responses,
     requestBody,
@@ -173,7 +172,7 @@ export const generateVerbsOptions = ({
   output: NormalizedOutputOptions;
   route: string;
   context: ContextSpecs;
-}): Promise<GeneratorVerbsOptions> =>
+}) =>
   asyncReduce(
     Object.entries(verbs),
     async (acc, [verb, operation]: [string, OperationObject]) => {

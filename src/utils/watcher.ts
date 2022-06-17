@@ -3,7 +3,7 @@ import { log } from './messages/logs';
 
 export const startWatcher = async (
   watchOptions: boolean | string | (string | boolean)[],
-  watchFn: () => Promise<any>,
+  watchFn: () => Promise<unknown>,
   defaultTarget: string | string[] = '.',
 ) => {
   if (!watchOptions) return;

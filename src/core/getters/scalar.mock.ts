@@ -2,7 +2,6 @@ import { SchemaObject } from 'openapi3-ts';
 import { DEFAULT_FORMAT_MOCK } from '../../constants/format.mock';
 import { ContextSpecs, MockOptions } from '../../types';
 import { GeneratorImport } from '../../types/generator';
-import { MockDefinition } from '../../types/mocks';
 import { mergeDeep } from '../../utils/mergeDeep';
 import { escape } from '../../utils/string';
 import { isReference } from '../../utils/is';
@@ -35,7 +34,7 @@ export const getMockScalar = async ({
   tags: string[];
   combine?: { properties: string[] };
   context: ContextSpecs;
-}): Promise<MockDefinition> => {
+}) => {
   const operationProperty = resolveMockOverride(
     mockOptions?.operations?.[operationId]?.properties,
     item,

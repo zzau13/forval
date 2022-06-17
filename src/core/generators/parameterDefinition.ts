@@ -11,7 +11,7 @@ export const generateParameterDefinition = (
   parameters: ComponentsObject['parameters'] = {},
   context: ContextSpecs,
   suffix: string,
-): Promise<GeneratorSchema[]> => {
+) => {
   return asyncReduce(
     Object.entries(parameters),
     async (acc, [parameterName, parameter]) => {

@@ -1,7 +1,6 @@
 import { SchemaObject } from 'openapi3-ts';
 import { ContextSpecs, MockOptions } from '../../types';
 import { GeneratorImport } from '../../types/generator';
-import { MockDefinition } from '../../types/mocks';
 import { isReference } from '../../utils/is';
 import { getRefInfo } from '../getters/ref';
 import { getMockScalar } from '../getters/scalar.mock';
@@ -59,7 +58,7 @@ export const resolveMockValue = async ({
   combine?: { properties: string[] };
   context: ContextSpecs;
   imports: GeneratorImport[];
-}): Promise<MockDefinition & { type?: string }> => {
+}) => {
   if (isReference(schema)) {
     const { name, specKey } = await getRefInfo(schema.$ref, {
       ...context,

@@ -270,7 +270,7 @@ export const generateClient = (
   outputClient: OutputClient | OutputClientFunc = DEFAULT_CLIENT,
   verbsOptions: GeneratorVerbsOptions,
   options: GeneratorOptions,
-): Promise<GeneratorOperations> => {
+) => {
   return asyncReduce(
     verbsOptions,
     async (acc, verbOption) => {

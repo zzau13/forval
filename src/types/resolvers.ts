@@ -2,6 +2,7 @@ import { SchemaObject } from 'openapi3-ts';
 import { GeneratorImport, GeneratorSchema } from './generator';
 
 export type ResolverValue = {
+  name?: string;
   value: string;
   isEnum: boolean;
   type: string;

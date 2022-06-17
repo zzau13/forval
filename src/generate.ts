@@ -21,6 +21,10 @@ export const generateSpec = async (
   options: NormalizedOptions,
   projectName?: string,
 ) => {
+  console.log(workspace);
+  console.log(options);
+  console.log(projectName);
+
   if (options.output.clean) {
     const extraPatterns = Array.isArray(options.output.clean)
       ? options.output.clean
@@ -41,6 +45,8 @@ export const generateSpec = async (
     log(`${projectName ? `${projectName}: ` : ''}Cleaning output folder`);
   }
 
+  // TODO: why is async? NodeJS is single thread and all logic is sync
+  //   And why read same file multiple times, don't worry about io?
   const writeSpecProps = await importSpecs(workspace, options);
   await writeSpecs(writeSpecProps, workspace, options, projectName);
 };

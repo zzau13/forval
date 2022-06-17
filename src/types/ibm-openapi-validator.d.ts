@@ -16,7 +16,7 @@ declare module 'ibm-openapi-validator' {
    * @param defaultMode If set to true, the validator will ignore the .validaterc file and will use the configuration defaults.
    */
   function validator(
-    openApiDoc: any,
+    openApiDoc: unknown,
     defaultMode = false,
   ): Promise<ValidatorResults>;
 

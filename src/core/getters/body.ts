@@ -1,7 +1,6 @@
 import { ReferenceObject, RequestBodyObject } from 'openapi3-ts';
 import { generalJSTypesWithArray } from '../../constants';
 import { ContextSpecs } from '../../types';
-import { GetterBody } from '../../types/getters';
 import { camel } from '../../utils/case';
 import { getResReqTypes } from './resReqTypes';
 
@@ -9,7 +8,7 @@ export const getBody = async (
   requestBody: ReferenceObject | RequestBodyObject,
   operationName: string,
   context: ContextSpecs,
-): Promise<GetterBody> => {
+) => {
   const allBodyTypes = await getResReqTypes(
     [[context.override.components.requestBodies.suffix, requestBody]],
     operationName,

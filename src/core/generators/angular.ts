@@ -50,7 +50,6 @@ export const generateAngularHeader = ({
   isRequestOptions,
   isMutator,
   isGlobalMutator,
-  provideInRoot,
   provideIn,
 }: {
   title: string;
