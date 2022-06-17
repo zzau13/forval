@@ -15,23 +15,17 @@ type ComponentObject =
   | ResponseObject
   | ParameterObject
   | RequestBodyObject;
-export const resolveRef = async <
-  Schema extends ComponentObject = ComponentObject,
->(
-  schema: ComponentObject,
+export const resolveRef = <Schema extends ComponentObject>(
+  schema: Schema,
   context: ContextSpecs,
   imports: GeneratorImport[] = [],
-): Promise<{
+): {
   schema: Schema;
   imports: GeneratorImport[];
-}> => {
-  // the schema is refering to another object
+} => {
+  // the schema is referring to another object
   if (schema?.schema?.$ref) {
-    const resolvedRef = await resolveRef<Schema>(
-      schema?.schema,
-      context,
-      imports,
-    );
+    const resolvedRef = resolveRef(schema?.schema, context, imports);
     return {
       schema: {
         ...schema,
@@ -41,6 +35,7 @@ export const resolveRef = async <
     };
   }
 
+  // TODO: what is this
   if (!isReference(schema)) {
     return { schema: schema as Schema, imports };
   }
@@ -59,7 +54,7 @@ export const resolveRef = async <
     throw `Oups... 🍻. Ref not found: ${schema.$ref}`;
   }
 
-  return resolveRef<Schema>(
+  return resolveRef(
     currentSchema,
     { ...context, specKey: specKey || context.specKey },
     [...imports, { name, specKey, schemaName: originalName }],
