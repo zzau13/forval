@@ -98,7 +98,6 @@ export const getParams = ({
           : `= ${stringify(resolvedValue.originalSchema!.default)}`
       }`;
 
-      console.log(resolvedValue);
       return {
         name,
         definition,

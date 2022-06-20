@@ -21,10 +21,6 @@ export const generateSpec = async (
   options: NormalizedOptions,
   projectName?: string,
 ) => {
-  console.log(workspace);
-  console.log(options);
-  console.log(projectName);
-
   if (options.output.clean) {
     const extraPatterns = Array.isArray(options.output.clean)
       ? options.output.clean
