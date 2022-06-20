@@ -269,13 +269,10 @@ const generateQueryOptions = ({
   const queryConfig = isObject(options)
     ? ` ${stringify(
         omitBy(options, (_, key) => {
-          if (
+          return (
             type !== QueryType.INFINITE &&
             INFINITE_QUERY_PROPERTIES.includes(key)
-          ) {
-            return true;
-          }
-          return false;
+          );
         }),
       )?.slice(1, -1)}`
     : '';
@@ -510,7 +507,7 @@ const generateQueryHook = (
     // TODO: What happens if I do `{ foo: 1 } === { foo: 1 }`? awesome
     return `export const ${queryKeyFnName} = (${queryProps}) => [\`${route}\`${
       queryParams
-        ? ', ...(params ? Object.values(params).sort(([a,], [b,]) => a.localeCompare(b)).map(([,x]) => x): [])'
+        ? ', ...(params ? Object.entries(params).sort(([a], [b]) => a.localeCompare(b)).map(([,x]) => x): [])'
         : ''
     }${body.implementation ? `, ${body.implementation}` : ''}];
 
