@@ -1,21 +1,9 @@
 import get from 'lodash.get';
 import { ReferenceObject } from 'openapi3-ts';
-import { resolve } from 'upath';
-import url from 'url';
 import { ContextSpecs } from '../../types';
 import { pascal } from '../../utils/case';
-import { getFileInfo } from '../../utils/file';
-import { isUrl } from '../../utils/url';
-import * as Url from 'url';
 
 type RefComponent = 'schemas' | 'responses' | 'parameters' | 'requestBodies';
-
-const RefComponent = {
-  schemas: 'schemas' as RefComponent,
-  responses: 'responses' as RefComponent,
-  parameters: 'parameters' as RefComponent,
-  requestBodies: 'requestBodies' as RefComponent,
-};
 
 export const RefComponentSuffix: Record<RefComponent, string> = {
   schemas: '',
