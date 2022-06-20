@@ -58,13 +58,12 @@
     "test": "vitest test.ts",
     "format": "prettier --write .",
     "format:staged": "pretty-quick --staged",
-    "prerelease": "yarn build && cd ./tests && yarn generate && yarn build",
-    "release": "dotenv release-it",
-    "postrelease": "yarn build && yarn update-samples",
+    "release": "pnpm test && dotenv release-it",
     "generate-api": "node ./dist/bin/orval.js --config ./samples/react-query/basic/orval.config.ts --watch",
     "prepare": "husky install",
     "commitlint": "commitlint",
-    "update-samples": "zx ./scripts/update-samples.mjs"
+    "update-samples": "zx ./scripts/update-samples.mjs",
+    "prepublish": "pnpm build"
   },
   "dependencies": {
     "@apidevtools/swagger-parser": "^10.1.0",
