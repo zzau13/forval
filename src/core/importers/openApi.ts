@@ -1,6 +1,6 @@
 import omit from 'lodash.omit';
 import { OpenAPIObject } from 'openapi3-ts';
-import { ContextSpecs, ImportOpenApi, InputOptions } from '../../types';
+import { ContextSpecs, InputOptions } from '../../types';
 import { GeneratorSchema } from '../../types/generator';
 import { asyncReduce } from '../../utils/async-reduce';
 import { swaggerConverter } from '../../utils/converter';
@@ -53,9 +53,8 @@ export const importOpenApi = async ({
   output,
   target,
   workspace,
-}: ImportOpenApi) => {
+}) => {
   const specs = await generateInputSpecs({ specs: data, input, workspace });
-
   const schemas = await asyncReduce(
     Object.entries(specs),
     async (acc, [specKey, spec]) => {

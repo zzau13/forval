@@ -6,7 +6,7 @@ import {
   ConfigExternal,
   GlobalOptions,
   NormalizedOptions,
-  NormizaledConfig,
+  NormalizedConfig,
 } from './types';
 import { asyncReduce } from './utils/async-reduce';
 import { catchError } from './utils/errors';
@@ -48,7 +48,7 @@ export const generateSpec = async (
 };
 
 export const generateSpecs = async (
-  config: NormizaledConfig,
+  config: NormalizedConfig,
   workspace: string,
   projectName?: string,
 ) => {
@@ -106,7 +106,7 @@ export const generateConfig = async (
 
       return acc;
     },
-    {} as NormizaledConfig,
+    {} as NormalizedConfig,
   );
 
   const fileToWatch = Object.entries(normalizedConfig)

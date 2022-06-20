@@ -42,7 +42,7 @@ export const importSpecs = async (
   const { input, output } = options;
 
   if (isObject(input.target)) {
-    return importOpenApi({
+    return await importOpenApi({
       data: { [workspace]: input.target },
       input,
       output,

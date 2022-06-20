@@ -9,7 +9,7 @@ import { generateClient } from './client';
 import { generateVerbsOptions } from './verbsOptions';
 
 //
-export const generateApi = async ({
+export const generateApi = ({
   output,
   context,
 }: {

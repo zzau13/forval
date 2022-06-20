@@ -62,7 +62,8 @@ export const writeSpecs = async (
 
         return writeSchemas({
           schemaPath,
-          schemas,
+          // TODO
+          schemas: schemas as any,
           target,
           specsName,
           isRootKey,

@@ -23,7 +23,7 @@ export type ConfigFn = () => Config | Promise<Config>;
 
 export type ConfigExternal = Config | Promise<Config> | ConfigFn;
 
-export type NormizaledConfig = {
+export type NormalizedConfig = {
   [project: string]: NormalizedOptions;
 };
 
@@ -290,14 +290,6 @@ export const Verbs = {
   PATCH: 'patch' as Verbs,
   DELETE: 'delete' as Verbs,
   HEAD: 'head' as Verbs,
-};
-
-export type ImportOpenApi = {
-  data: Record<string, OpenAPIObject>;
-  input: InputOptions;
-  output: NormalizedOutputOptions;
-  target: string;
-  workspace: string;
 };
 
 export interface ContextSpecs {
