@@ -509,7 +509,9 @@ const generateQueryHook = (
 
     // TODO: What happens if I do `{ foo: 1 } === { foo: 1 }`? awesome
     return `export const ${queryKeyFnName} = (${queryProps}) => [\`${route}\`${
-      queryParams ? ', ...(params ? [params]: [])' : ''
+      queryParams
+        ? ', ...(params ? Object.values(params).sort(([a,], [b,]) => a.localeCompare(b)).map(([,x]) => x): [])'
+        : ''
     }${body.implementation ? `, ${body.implementation}` : ''}];
 
     ${queries.reduce(

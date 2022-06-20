@@ -26,7 +26,7 @@ export const resolveObject = async ({
     propName &&
     !resolvedValue.isEnum &&
     resolvedValue?.type === 'object' &&
-    new RegExp(/{|&|\|/).test(resolvedValue.value)
+    new RegExp(/[{&|]/).test(resolvedValue.value)
   ) {
     return {
       value: propName,

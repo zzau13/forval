@@ -1,12 +1,11 @@
 import chalk from 'chalk';
 import { log } from 'console';
-import { execa } from 'execa';
+import execa = require('execa');
 import { appendFile, outputFile, pathExists, readFile } from 'fs-extra';
 import uniq from 'lodash.uniq';
 import { InfoObject } from 'openapi3-ts';
 import { join } from 'upath';
-import { NormalizedOptions, OutputMode } from '../../types';
-import { WriteSpecsProps } from '../../types/writers';
+import { AwaitedReturn, NormalizedOptions, OutputMode } from '../../types';
 import { jsDoc } from '../../utils/doc';
 import { getFileInfo } from '../../utils/file';
 import { createSuccessMessage } from '../../utils/messages/logs';
@@ -16,6 +15,7 @@ import { writeSingleMode } from './singleMode';
 import { writeSplitMode } from './splitMode';
 import { writeSplitTagsMode } from './splitTagsMode';
 import { writeTagsMode } from './tagsMode';
+import { importSpecs } from '../importers/specs';
 
 const getHeader = (
   option: false | ((info: InfoObject) => string | string[]),
@@ -31,7 +31,7 @@ const getHeader = (
 };
 
 export const writeSpecs = async (
-  { operations, schemas, target, info }: WriteSpecsProps,
+  { operations, schemas, target, info }: AwaitedReturn<typeof importSpecs>,
   workspace: string,
   options: NormalizedOptions,
   projectName?: string,

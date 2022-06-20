@@ -9,6 +9,7 @@
     "removeComments": true,
     "rootDir": "./src",
     "resolveJsonModule": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "allowSyntheticDefaultImports": true
   }
 }

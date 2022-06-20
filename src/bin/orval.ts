@@ -64,7 +64,7 @@ cli
             try {
               await generateSpec(process.cwd(), normalizedOptions);
             } catch (e) {
-              log(chalk.red(`🛑  ${e}`));
+              log(chalk.red(`🛑 0  ${e}`));
             }
           },
           normalizedOptions.input.target as string,
@@ -73,7 +73,7 @@ cli
         try {
           await generateSpec(process.cwd(), normalizedOptions);
         } catch (e) {
-          log(chalk.red(`🛑  ${e}`));
+          log(chalk.red(`🛑 1  ${e}`));
         }
       }
     } else {

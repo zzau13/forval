@@ -1,4 +1,4 @@
-import { findUp } from 'find-up';
+import findUp from 'find-up';
 import { existsSync } from 'fs-extra';
 import { normalizePath } from './options';
 

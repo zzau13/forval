@@ -6,6 +6,7 @@ import { ContextSpecs } from '../../types';
 import { pascal } from '../../utils/case';
 import { getFileInfo } from '../../utils/file';
 import { isUrl } from '../../utils/url';
+import * as Url from 'url';
 
 type RefComponent = 'schemas' | 'responses' | 'parameters' | 'requestBodies';
 
@@ -51,9 +52,7 @@ export const getRefInfo = (
     };
   }
 
-  const path = isUrl(context.specKey)
-    ? url.resolve(context.specKey, pathname)
-    : resolve(getFileInfo(context.specKey).dirname, pathname);
+  const path = new URL(context.specKey, pathname).toString();
 
   return {
     name: pascal(originalName) + suffix,

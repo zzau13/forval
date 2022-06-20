@@ -336,3 +336,11 @@ export interface Tsconfig {
 export interface PackageJson {
   dependencies?: Record<string, string>;
 }
+
+export type Awaited<T extends Promise<any>> = T extends Promise<infer B>
+  ? B
+  : never;
+
+export type AwaitedReturn<T extends (...a: any[]) => Promise<any>> = Awaited<
+  ReturnType<T>
+>;

@@ -17,7 +17,7 @@ export const startMessage = ({
     }`,
   );
 
-export const errorMessage = (err: string) => log(chalk.red(err));
+export const errorMessage = (err: string) => log('Aqui' + chalk.red(err));
 
 export const mismatchArgsMessage = (mismatchArgs: string[]) =>
   log(

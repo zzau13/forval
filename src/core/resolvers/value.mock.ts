@@ -20,11 +20,7 @@ export const resolveMockOverride = (
       }
     }
 
-    if (`#.${key}` === (item.path ? item.path : `#.${item.name}`)) {
-      return true;
-    }
-
-    return false;
+    return `#.${key}` === (item.path ? item.path : `#.${item.name}`);
   });
 
   if (!property) {

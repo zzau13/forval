@@ -63,7 +63,7 @@ export const generateSpecs = async (
       try {
         await generateSpec(workspace, options, projectName);
       } catch (e) {
-        log(chalk.red(`🛑  ${projectName ? `${projectName} - ` : ''}${e}`));
+        log(chalk.red(`🛑  3 ${projectName ? `${projectName} - ` : ''}${e}`));
       }
     } else {
       catchError('Project not found');
@@ -74,11 +74,7 @@ export const generateSpecs = async (
   return asyncReduce(
     Object.entries(config),
     async (acc, [projectName, options]) => {
-      try {
-        acc.push(await generateSpec(workspace, options, projectName));
-      } catch (e) {
-        log(chalk.red(`🛑  ${projectName ? `${projectName} - ` : ''}${e}`));
-      }
+      acc.push(await generateSpec(workspace, options, projectName));
       return acc;
     },
     [] as void[],

@@ -14,7 +14,7 @@ export const resolveValue = async ({
   context: ContextSpecs;
 }) => {
   if (isReference(schema)) {
-    const { schema: schemaObject, imports } = await resolveRef<SchemaObject>(
+    const { schema: schemaObject, imports } = resolveRef<SchemaObject>(
       schema,
       context,
     );

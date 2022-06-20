@@ -1,7 +1,8 @@
 import chalk from 'chalk';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const globby = require('globby');
 import { build, PluginBuild } from 'esbuild';
 import fs from 'fs';
-import { globby } from 'globby';
 import mm from 'micromatch';
 import path from 'path';
 import {

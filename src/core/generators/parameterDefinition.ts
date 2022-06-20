@@ -8,10 +8,8 @@ import { resolveObject } from '../resolvers/object';
 import { resolveRef } from '../resolvers/ref';
 
 // TODO: madre mia el follon que lleva con los tipos
-export const generateParameterDefinition = <
-  P extends ComponentsObject['parameters'],
->(
-  parameters: P,
+export const generateParameterDefinition = (
+  parameters: ComponentsObject['parameters'] = {},
   context: ContextSpecs,
   suffix: string,
 ) => {
