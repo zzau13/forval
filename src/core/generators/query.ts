@@ -397,7 +397,7 @@ export const ${camel(`use-${name}`)} = (
       mutator,
       isRequestOptions,
       type,
-    })}): UseQueryResult<${tData}, ${tError}> => {
+    })}): Omit<UseQueryResult<${tData}, ${tError}>, 'queryKey'> => {
 
   ${
     isRequestOptions
@@ -499,7 +499,7 @@ const generateQueryHook = (
     const queryKeyFnName = camel(`get-${operationName}-queryKey`);
     const queryProps = toObjectString(props, 'implementation');
 
-    // TODO: What happens if I do `{ foo: 1 } === { foo: 1 }`? awesome
+    // TODO: THIS IS PROVISIONAL. deconstruct and use fields
     return `export const ${queryKeyFnName} = (${queryProps}) => [\`${route}\`${
       queryParams
         ? ', ...(params ? Object.entries(params).sort(([a], [b]) => a.localeCompare(b)).map(([,x]) => x): [])'
