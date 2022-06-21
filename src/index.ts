@@ -22,7 +22,7 @@ const generate = async (
   );
 
   if (options?.watch) {
-    startWatcher(
+    await startWatcher(
       options?.watch,
       async () => {
         try {
