@@ -247,7 +247,7 @@ type QueryOptions = {
   useQuery?: boolean;
   useInfinite?: boolean;
   useInfiniteQueryParam?: string;
-  options?: unknown;
+  options?: object | boolean;
 };
 
 export type AngularOptions = {

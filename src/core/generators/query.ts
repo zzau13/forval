@@ -517,8 +517,7 @@ const generateQueryHook = (
       (acc, queryOption) =>
         acc +
         generateQueryImplementation({
-          // TODO: madre mia el follon que lleva con los tipos
-          queryOption: queryOption as any,
+          queryOption,
           operationName,
           queryProps,
           queryKeyFnName,
