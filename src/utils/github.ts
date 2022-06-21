@@ -83,7 +83,7 @@ export const getGithubOpenApi = async (url: string) => {
 
   try {
     const { body } = await request<{
-      data?: { repository: unknown };
+      data?: { repository?: { object?: { text?: string } } };
       errors?: { type: string }[];
     }>(...getGithubSpecReq({ accessToken, repo, owner, branch, path }));
     if (body.errors?.length) {
@@ -106,8 +106,7 @@ export const getGithubOpenApi = async (url: string) => {
       }
     }
 
-    // TODO: follon de tipos. muerte cerebral
-    return (body.data?.repository as any)?.object.text;
+    return body.data?.repository?.object?.text;
   } catch (e) {
     if (!e.body) {
       throw `Oups... 🍻. ${e}`;

@@ -12,6 +12,7 @@ export const useCustomInstance = <T>(): ((
       cancelToken: source.token,
     }).then(({ data }) => data);
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     promise.cancel = () => {
       source.cancel('Query was cancelled by React Query');

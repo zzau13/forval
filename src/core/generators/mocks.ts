@@ -19,7 +19,7 @@ const getMockPropertiesWithoutFunc = (properties: any, spec: OpenAPIObject) =>
   >((acc, [key, value]) => {
     const implementation = isFunction(value)
       ? `(${value})()`
-      : stringify(value as string)!;
+      : stringify(value as string);
 
     acc[key] = implementation?.replace(
       /import_faker.defaults|import_faker.faker/g,

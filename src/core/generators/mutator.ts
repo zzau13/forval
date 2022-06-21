@@ -67,7 +67,7 @@ export const generateMutator = async ({
   });
 
   if (file) {
-    const mutatorInfoName = isDefault ? 'default' : mutator.name!;
+    const mutatorInfoName = isDefault ? 'default' : mutator.name;
     const mutatorInfo = parseFile(file, mutatorInfoName);
 
     if (!mutatorInfo) {

@@ -15,6 +15,7 @@ type ComponentObject =
   | ResponseObject
   | ParameterObject
   | RequestBodyObject;
+// TODO: pero como voy a decirle el tipo que tiene que devolver sin inferirlo
 export const resolveRef = <Schema extends ComponentObject = ComponentObject>(
   schema: ComponentObject,
   context: ContextSpecs,

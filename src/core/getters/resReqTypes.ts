@@ -130,7 +130,7 @@ export const getResReqTypes = (
               context,
             });
 
-            if (!resolvedValue) {
+            if (!resolvedValue && mediaType.schema) {
               return;
             }
 
@@ -145,7 +145,7 @@ export const getResReqTypes = (
             const formData = isFormData
               ? generateSchemaFormDataAndUrlEncoded(
                   propName,
-                  mediaType.schema!,
+                  mediaType.schema,
                   context,
                 )
               : undefined;
@@ -153,7 +153,7 @@ export const getResReqTypes = (
             const formUrlEncoded = isFormUrlEncoded
               ? generateSchemaFormDataAndUrlEncoded(
                   propName,
-                  mediaType.schema!,
+                  mediaType.schema,
                   context,
                   true,
                 )

@@ -44,7 +44,7 @@ export const getMockObject = async ({
   if (item.allOf || item.oneOf || item.anyOf) {
     return combineSchemasMock({
       item,
-      items: (item.allOf || item.oneOf || item.anyOf)!,
+      items: item.allOf || item.oneOf || item.anyOf || [],
       isOneOf: !!(item.oneOf || item.anyOf),
       mockOptions,
       operationId,

@@ -21,7 +21,7 @@ const getQueryParamsTypes = (
     };
 
     const { value, imports, isEnum, type, schemas, isRef } = resolveValue({
-      schema: (schema || content['application/json'].schema)!,
+      schema: schema || content['application/json'].schema,
       context,
       name: pascal(operationName) + pascal(name),
     });

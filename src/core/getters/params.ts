@@ -85,22 +85,22 @@ export const getParams = ({
     });
 
     const definition = `${name}${
-      !required || resolvedValue.originalSchema!.default ? '?' : ''
+      !required || resolvedValue.originalSchema?.default ? '?' : ''
     }: ${resolvedValue.value}`;
 
     const implementation = `${name}${
-      !required && !resolvedValue.originalSchema!.default ? '?' : ''
+      !required && !resolvedValue.originalSchema?.default ? '?' : ''
     }${
-      !resolvedValue.originalSchema!.default
+      !resolvedValue.originalSchema?.default
         ? `: ${resolvedValue.value}`
-        : `= ${stringify(resolvedValue.originalSchema!.default)}`
+        : `= ${stringify(resolvedValue.originalSchema?.default)}`
     }`;
 
     return {
       name,
       definition,
       implementation,
-      default: resolvedValue.originalSchema!.default,
+      default: resolvedValue.originalSchema?.default,
       required,
       imports: resolvedValue.imports,
     };

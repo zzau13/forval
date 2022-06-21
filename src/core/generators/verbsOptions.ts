@@ -55,7 +55,8 @@ const generateVerbOptions = async ({
 
   const operationId = getOperationId(operation, route, verb);
 
-  const overrideOperation = output.override.operations[operation.operationId!];
+  const overrideOperation =
+    output.override.operations[operation.operationId ?? ''];
   const overrideTag = Object.entries(
     output.override.tags,
   ).reduce<NormalizedOperationOptions>(
@@ -79,7 +80,7 @@ const generateVerbOptions = async ({
 
   const response = getResponse(responses, operationName, context);
 
-  const body = getBody(requestBody!, operationName, context);
+  const body = getBody(requestBody, operationName, context);
   const parameters = getParameters({
     parameters: [...verbParameters, ...(operationParameters ?? [])],
     context,
@@ -94,7 +95,7 @@ const generateVerbOptions = async ({
   const params = getParams({
     route,
     pathParams: parameters.path,
-    operationId: operationId!,
+    operationId,
     context,
   });
 
@@ -136,7 +137,7 @@ const generateVerbOptions = async ({
     verb: verb as Verbs,
     tags,
     summary: operation.summary,
-    operationId: operationId!,
+    operationId,
     operationName,
     response,
     body,
