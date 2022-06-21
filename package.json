@@ -44,7 +44,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/botika/orval"
+    "url": "https://github.com/botika/forval"
   },
   "scripts": {
     "fix": "pnpm lint && pnpm fmt",
