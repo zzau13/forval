@@ -323,13 +323,15 @@ const generateQueryArguments = ({
     return `${type ? 'queryOptions' : 'mutationOptions'}?: ${definition}`;
   }
 
-  return `options?: { ${type ? 'query' : 'mutation'}?:${definition}, ${
-    !mutator
-      ? `axios?: AxiosRequestConfig`
-      : mutator?.hasSecondArg
-      ? `request?: SecondParameter<typeof ${mutator.name}>`
-      : ''
-  }}\n`;
+  const mutators = !mutator
+    ? `axios?: AxiosRequestConfig`
+    : mutator?.hasSecondArg
+    ? `request?: SecondParameter<typeof ${mutator.name}>`
+    : '';
+  if (type)
+    return `options?: { query?: Omit<${definition}, 'queryKey'>, ${mutators}}\n`;
+
+  return `options?: { mutation?:${definition}, ${mutators}}\n`;
 };
 
 const generateQueryImplementation = ({
@@ -397,7 +399,7 @@ export const ${camel(`use-${name}`)} = (
       mutator,
       isRequestOptions,
       type,
-    })}): Omit<UseQueryResult<${tData}, ${tError}>, 'queryKey'> => {
+    })}): UseQueryResult<${tData}, ${tError}> => {
 
   ${
     isRequestOptions
