@@ -2,7 +2,6 @@ import isEmpty from 'lodash.isempty';
 import { SchemasObject } from 'openapi3-ts';
 import { ContextSpecs } from '../../types';
 import { GeneratorSchema } from '../../types/generator';
-import { asyncReduce } from '../../utils/async-reduce';
 import { pascal } from '../../utils/case';
 import { jsDoc } from '../../utils/doc';
 import { isReference } from '../../utils/is';
@@ -14,7 +13,7 @@ import { generateInterface } from './interface';
 /**
  * Extract all types from #/components/schemas
  */
-export const generateSchemasDefinition = async (
+export const generateSchemasDefinition = (
   schemas: SchemasObject = {},
   context: ContextSpecs,
   suffix: string,
@@ -23,82 +22,72 @@ export const generateSchemasDefinition = async (
     return [];
   }
 
-  const models = asyncReduce(
-    Object.entries(schemas),
-    async (acc, [name, schema]) => {
-      const schemaName = pascal(name) + suffix;
-      if (
-        (!schema.type || schema.type === 'object') &&
-        !schema.allOf &&
-        !schema.oneOf &&
-        !schema.anyOf &&
-        !isReference(schema) &&
-        !schema.nullable
-      ) {
-        acc.push(
-          ...(await generateInterface({
-            name: schemaName,
-            schema,
-            context,
-            suffix,
-          })),
+  return Object.entries(schemas).reduce((acc, [name, schema]) => {
+    const schemaName = pascal(name) + suffix;
+    if (
+      (!schema.type || schema.type === 'object') &&
+      !schema.allOf &&
+      !schema.oneOf &&
+      !schema.anyOf &&
+      !isReference(schema) &&
+      !schema.nullable
+    ) {
+      acc.push(
+        ...generateInterface({
+          name: schemaName,
+          schema,
+          context,
+          suffix,
+        }),
+      );
+
+      return acc;
+    } else {
+      const resolvedValue = resolveValue({
+        schema,
+        name: schemaName,
+        context,
+      });
+
+      let output = '';
+
+      let imports = resolvedValue.imports;
+
+      output += jsDoc(schema);
+
+      if (resolvedValue.isEnum && !resolvedValue.isRef) {
+        output += getEnum(resolvedValue.value, resolvedValue.type, schemaName);
+      } else if (schemaName === resolvedValue.value && resolvedValue.isRef) {
+        const imp = resolvedValue.imports.find(
+          (imp) => imp.name === schemaName,
         );
 
-        return acc;
-      } else {
-        const resolvedValue = await resolveValue({
-          schema,
-          name: schemaName,
-          context,
-        });
-
-        let output = '';
-
-        let imports = resolvedValue.imports;
-
-        output += jsDoc(schema);
-
-        if (resolvedValue.isEnum && !resolvedValue.isRef) {
-          output += getEnum(
-            resolvedValue.value,
-            resolvedValue.type,
-            schemaName,
-          );
-        } else if (schemaName === resolvedValue.value && resolvedValue.isRef) {
-          const imp = resolvedValue.imports.find(
-            (imp) => imp.name === schemaName,
-          );
-
-          if (!imp) {
-            output += `export type ${schemaName} = Readonly<${resolvedValue.value}>;\n`;
-          } else {
-            const alias = imp?.specKey
-              ? `${pascal(getSpecName(imp.specKey, context.specKey))}${
-                  resolvedValue.value
-                }`
-              : `${resolvedValue.value}Bis`;
-
-            output += `export type ${schemaName} = Readonly<${alias}>;\n`;
-
-            imports = imports.map((imp) =>
-              imp.name === schemaName ? { ...imp, alias } : imp,
-            );
-          }
-        } else {
+        if (!imp) {
           output += `export type ${schemaName} = Readonly<${resolvedValue.value}>;\n`;
+        } else {
+          const alias = imp?.specKey
+            ? `${pascal(getSpecName(imp.specKey, context.specKey))}${
+                resolvedValue.value
+              }`
+            : `${resolvedValue.value}Bis`;
+
+          output += `export type ${schemaName} = Readonly<${alias}>;\n`;
+
+          imports = imports.map((imp) =>
+            imp.name === schemaName ? { ...imp, alias } : imp,
+          );
         }
-
-        acc.push(...resolvedValue.schemas, {
-          name: schemaName,
-          model: output,
-          imports,
-        });
-
-        return acc;
+      } else {
+        output += `export type ${schemaName} = Readonly<${resolvedValue.value}>;\n`;
       }
-    },
-    [] as GeneratorSchema[],
-  );
 
-  return models;
+      acc.push(...resolvedValue.schemas, {
+        name: schemaName,
+        model: output,
+        imports,
+      });
+
+      return acc;
+    }
+  }, [] as GeneratorSchema[]);
 };

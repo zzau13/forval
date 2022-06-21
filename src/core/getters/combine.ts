@@ -2,7 +2,6 @@ import { ReferenceObject, SchemaObject } from 'openapi3-ts';
 import { ContextSpecs } from '../../types';
 import { GeneratorImport } from '../../types/generator';
 import { ResolverValue } from '../../types/resolvers';
-import { asyncReduce } from '../../utils/async-reduce';
 import { pascal } from '../../utils/case';
 import { getNumberWord } from '../../utils/string';
 import { resolveObject } from '../resolvers/object';

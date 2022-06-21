@@ -8,7 +8,7 @@ import { getScalar } from '../getters/scalar';
  * Generate the interface string
  * A eslint|tslint comment is insert if the resulted object is empty
  */
-export const generateInterface = async ({
+export const generateInterface = ({
   name,
   schema,
   context,
@@ -18,7 +18,7 @@ export const generateInterface = async ({
   context: ContextSpecs;
   suffix: string;
 }) => {
-  const scalar = await getScalar({
+  const scalar = getScalar({
     item: schema,
     name,
     context,

@@ -1,24 +1,24 @@
 import { PathItemObject } from 'openapi3-ts';
 import { ContextSpecs, NormalizedOutputOptions } from '../../types';
 import { GeneratorApiResponse, GeneratorSchema } from '../../types/generator';
-import { asyncReduce } from '../../utils/async-reduce';
 import { isReference } from '../../utils/is';
 import { getRoute } from '../getters/route';
 import { resolveRef } from '../resolvers/ref';
 import { generateClient } from './client';
 import { generateVerbsOptions } from './verbsOptions';
 
-//
-export const generateApi = ({
+export const generateApi = async ({
   output,
   context,
 }: {
   output: NormalizedOutputOptions;
   context: ContextSpecs;
 }) => {
-  return asyncReduce(
-    Object.entries(context.specs[context.specKey].paths),
-    async (acc, [pathRoute, verbs]: [string, PathItemObject]) => {
+  let operations: GeneratorApiResponse['operations'] = {};
+  const schemas: GeneratorApiResponse['schemas'] = [];
+
+  (await Promise.all(Object.entries(context.specs[context.specKey].paths))).map(
+    async ([pathRoute, verbs]: [string, PathItemObject]) => {
       const route = getRoute(pathRoute);
 
       let resolvedVerbs = verbs;
@@ -68,14 +68,13 @@ export const generateApi = ({
         mock: !!output.mock,
       });
 
-      acc.schemas.push(...schemas);
-      acc.operations = { ...acc.operations, ...client };
-
-      return acc;
+      schemas.push(...schemas);
+      operations = { ...operations, ...client };
     },
-    {
-      operations: {},
-      schemas: [],
-    } as GeneratorApiResponse,
   );
+
+  return {
+    operations,
+    schemas,
+  };
 };
