@@ -11,11 +11,7 @@ import {
   NormalizedOutputOptions,
   Verbs,
 } from '../../types';
-import {
-  GeneratorVerbOptions,
-  GeneratorVerbsOptions,
-} from '../../types/generator';
-import { asyncReduce } from '../../utils/async-reduce';
+import { GeneratorVerbOptions } from '../../types/generator';
 import { camel } from '../../utils/case';
 import { jsDoc } from '../../utils/doc';
 import { dynamicImport } from '../../utils/imports';
@@ -81,21 +77,21 @@ const generateVerbOptions = async ({
     : camel(operationId);
   const operationName = sanitize(overriddenOperationName, { es5keyword: true });
 
-  const response = await getResponse(responses, operationName, context);
+  const response = getResponse(responses, operationName, context);
 
-  const body = await getBody(requestBody!, operationName, context);
-  const parameters = await getParameters({
+  const body = getBody(requestBody!, operationName, context);
+  const parameters = getParameters({
     parameters: [...verbParameters, ...(operationParameters ?? [])],
     context,
   });
 
-  const queryParams = await getQueryParams({
+  const queryParams = getQueryParams({
     queryParams: parameters.query,
     operationName,
     context,
   });
 
-  const params = await getParams({
+  const params = getParams({
     route,
     pathParams: parameters.path,
     operationId: operationId!,
@@ -173,23 +169,17 @@ export const generateVerbsOptions = ({
   route: string;
   context: ContextSpecs;
 }) =>
-  asyncReduce(
-    Object.entries(verbs),
-    async (acc, [verb, operation]: [string, OperationObject]) => {
-      if (isVerb(verb)) {
-        const verbOptions = await generateVerbOptions({
+  Promise.all(
+    Object.entries(verbs)
+      .filter(([verb]) => isVerb(verb))
+      .map(([verb, operation]: [Verbs, OperationObject]) =>
+        generateVerbOptions({
           verb,
           output,
           verbParameters: verbs.parameters,
           route,
           operation,
           context,
-        });
-
-        acc.push(verbOptions);
-      }
-
-      return acc;
-    },
-    [] as GeneratorVerbsOptions,
+        }),
+      ),
   );

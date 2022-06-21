@@ -5,7 +5,7 @@ import { resolveObject } from '../resolvers/object';
 /**
  * Return the output type from an array
  */
-export const getArray = async ({
+export const getArray = ({
   schema,
   name,
   context,
@@ -15,7 +15,7 @@ export const getArray = async ({
   context: ContextSpecs;
 }) => {
   if (schema.items) {
-    const resolvedObject = await resolveObject({
+    const resolvedObject = resolveObject({
       schema: schema.items,
       propName: name + 'Item',
       context,

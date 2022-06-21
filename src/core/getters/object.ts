@@ -2,7 +2,6 @@ import omit from 'lodash.omit';
 import { ReferenceObject, SchemaObject } from 'openapi3-ts';
 import { ContextSpecs } from '../../types';
 import { ResolverValue } from '../../types/resolvers';
-import { asyncReduce } from '../../utils/async-reduce';
 import { pascal } from '../../utils/case';
 import { jsDoc } from '../../utils/doc';
 import { isBoolean, isReference } from '../../utils/is';
@@ -15,7 +14,7 @@ import { getRefInfo } from './ref';
 /**
  * Return the output type from an object
  */
-export const getObject = async ({
+export const getObject = ({
   item,
   name,
   context,
@@ -75,9 +74,8 @@ export const getObject = async ({
   }
 
   if (item.properties && Object.entries(item.properties).length > 0) {
-    return asyncReduce(
-      Object.entries(item.properties),
-      async (
+    return Object.entries(item.properties).reduce(
+      (
         acc,
         [key, schema]: [string, ReferenceObject | SchemaObject],
         index,
@@ -97,7 +95,7 @@ export const getObject = async ({
           propName = propName + 'Property';
         }
 
-        const resolvedValue = await resolveObject({
+        const resolvedValue = resolveObject({
           schema,
           propName,
           context,
@@ -121,7 +119,7 @@ export const getObject = async ({
             if (isBoolean(item.additionalProperties)) {
               acc.value += `\n  [key: string]: any;\n }`;
             } else {
-              const resolvedValue = await resolveValue({
+              const resolvedValue = resolveValue({
                 schema: item.additionalProperties,
                 name,
                 context,
@@ -160,7 +158,7 @@ export const getObject = async ({
         isRef: false,
       };
     }
-    const resolvedValue = await resolveValue({
+    const resolvedValue = resolveValue({
       schema: item.additionalProperties,
       name,
       context,

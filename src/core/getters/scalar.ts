@@ -7,11 +7,8 @@ import { getObject } from './object';
 
 /**
  * Return the typescript equivalent of open-api data type
- *
- * @param item
- * @ref https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#data-types
  */
-export const getScalar = async ({
+export const getScalar = ({
   item,
   name,
   context,
@@ -58,7 +55,7 @@ export const getScalar = async ({
       };
 
     case 'array': {
-      const { value, ...rest } = await getArray({
+      const { value, ...rest } = getArray({
         schema: item,
         name,
         context,
@@ -105,7 +102,7 @@ export const getScalar = async ({
 
     case 'object':
     default: {
-      const { value, ...rest } = await getObject({
+      const { value, ...rest } = getObject({
         item,
         name,
         context,

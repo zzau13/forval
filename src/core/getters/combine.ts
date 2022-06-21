@@ -24,7 +24,7 @@ const SEPARATOR = {
   anyOf: '|',
 };
 
-export const combineSchemas = async ({
+export const combineSchemas = ({
   name,
   items,
   separator,
@@ -37,16 +37,15 @@ export const combineSchemas = async ({
   context: ContextSpecs;
   nullable: string;
 }) => {
-  const resolvedData = await asyncReduce(
-    items,
-    async (acc, schema) => {
+  const resolvedData = items.reduce(
+    (acc, schema) => {
       let propName = name ? name + pascal(separator) : undefined;
 
       if (propName && acc.schemas.length) {
         propName = propName + pascal(getNumberWord(acc.schemas.length + 1));
       }
 
-      const resolvedValue = await resolveObject({
+      const resolvedValue = resolveObject({
         schema,
         propName,
         combined: true,
