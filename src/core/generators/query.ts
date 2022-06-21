@@ -397,7 +397,7 @@ export const ${camel(`use-${name}`)} = (
       mutator,
       isRequestOptions,
       type,
-    })}): UseQueryResult<${tData}, ${tError}> & { queryKey: QueryKey } => {
+    })}): UseQueryResult<${tData}, ${tError}> => {
 
   ${
     isRequestOptions
@@ -410,8 +410,6 @@ export const ${camel(`use-${name}`)} = (
         }} = options ?? {}`
       : ''
   }
-
-  const queryKey = queryOptions?.queryKey ?? ${queryKeyFnName}(${properties});
 
   ${
     mutator?.isHook
@@ -433,18 +431,15 @@ export const ${camel(`use-${name}`)} = (
       : ''
   });
 
-  const query = ${camel(
+  return ${camel(
     `use-${type}`,
-  )}<${tData}, ${tError}, ${tData}>(queryKey, queryFn, ${generateQueryOptions({
-    params,
-    options,
-    type,
-  })})
-
-  return {
-    queryKey,
-    ...query
-  }
+  )}<${tData}, ${tError}, ${tData}>(${queryKeyFnName}(${properties}), queryFn, ${generateQueryOptions(
+    {
+      params,
+      options,
+      type,
+    },
+  )});
 }\n`;
 };
 
