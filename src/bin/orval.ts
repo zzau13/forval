@@ -58,7 +58,7 @@ cli
       });
 
       if (cmd.watch) {
-        startWatcher(
+        await startWatcher(
           cmd.watch,
           async () => {
             try {

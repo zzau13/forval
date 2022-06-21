@@ -54,13 +54,13 @@ export const writeSpecs = async (
     const rootSchemaPath = output.schemas;
 
     await Promise.all(
-      Object.entries(schemas).map(([specKey, schemas]) => {
+      Object.entries(schemas).map(async ([specKey, schemas]) => {
         const isRootKey = target === specKey;
         const schemaPath = !isRootKey
           ? join(rootSchemaPath, specsName[specKey])
           : rootSchemaPath;
 
-        return writeSchemas({
+        await writeSchemas({
           schemaPath,
           // TODO
           schemas: schemas as any,

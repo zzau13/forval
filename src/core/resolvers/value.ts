@@ -4,7 +4,7 @@ import { isReference } from '../../utils/is';
 import { getScalar } from '../getters/scalar';
 import { resolveRef } from './ref';
 
-export const resolveValue = ({
+export const resolveValue = async ({
   schema,
   name,
   context,
@@ -35,7 +35,7 @@ export const resolveValue = ({
     };
   }
 
-  const scalar = getScalar({ item: schema, name, context });
+  const scalar = await getScalar({ item: schema, name, context });
 
   return {
     ...scalar,

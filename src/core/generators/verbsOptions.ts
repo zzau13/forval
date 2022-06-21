@@ -11,7 +11,11 @@ import {
   NormalizedOutputOptions,
   Verbs,
 } from '../../types';
-import { GeneratorVerbOptions } from '../../types/generator';
+import {
+  GeneratorVerbOptions,
+  GeneratorVerbsOptions,
+} from '../../types/generator';
+import { asyncReduce } from '../../utils/async-reduce';
 import { camel } from '../../utils/case';
 import { jsDoc } from '../../utils/doc';
 import { dynamicImport } from '../../utils/imports';
@@ -55,8 +59,7 @@ const generateVerbOptions = async ({
 
   const operationId = getOperationId(operation, route, verb);
 
-  const overrideOperation =
-    output.override.operations[operation.operationId ?? ''];
+  const overrideOperation = output.override.operations[operation.operationId!];
   const overrideTag = Object.entries(
     output.override.tags,
   ).reduce<NormalizedOperationOptions>(
@@ -78,24 +81,24 @@ const generateVerbOptions = async ({
     : camel(operationId);
   const operationName = sanitize(overriddenOperationName, { es5keyword: true });
 
-  const response = getResponse(responses, operationName, context);
+  const response = await getResponse(responses, operationName, context);
 
-  const body = getBody(requestBody, operationName, context);
-  const parameters = getParameters({
+  const body = await getBody(requestBody!, operationName, context);
+  const parameters = await getParameters({
     parameters: [...verbParameters, ...(operationParameters ?? [])],
     context,
   });
 
-  const queryParams = getQueryParams({
+  const queryParams = await getQueryParams({
     queryParams: parameters.query,
     operationName,
     context,
   });
 
-  const params = getParams({
+  const params = await getParams({
     route,
     pathParams: parameters.path,
-    operationId,
+    operationId: operationId!,
     context,
   });
 
@@ -137,7 +140,7 @@ const generateVerbOptions = async ({
     verb: verb as Verbs,
     tags,
     summary: operation.summary,
-    operationId,
+    operationId: operationId!,
     operationName,
     response,
     body,
@@ -170,17 +173,23 @@ export const generateVerbsOptions = ({
   route: string;
   context: ContextSpecs;
 }) =>
-  Promise.all(
-    Object.entries(verbs)
-      .filter(([verb]) => isVerb(verb))
-      .map(([verb, operation]: [Verbs, OperationObject]) =>
-        generateVerbOptions({
+  asyncReduce(
+    Object.entries(verbs),
+    async (acc, [verb, operation]: [string, OperationObject]) => {
+      if (isVerb(verb)) {
+        const verbOptions = await generateVerbOptions({
           verb,
           output,
           verbParameters: verbs.parameters,
           route,
           operation,
           context,
-        }),
-      ),
+        });
+
+        acc.push(verbOptions);
+      }
+
+      return acc;
+    },
+    [] as GeneratorVerbsOptions,
   );

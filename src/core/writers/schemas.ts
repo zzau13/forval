@@ -86,8 +86,7 @@ export const writeSchemas = async ({
   header: string;
 }) => {
   await ensureFile(join(schemaPath, '/index.ts'));
-
-  return Promise.all(
+  await Promise.all(
     schemas.map((schema) =>
       writeSchema({
         path: schemaPath,

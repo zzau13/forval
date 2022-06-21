@@ -3,7 +3,7 @@ import { ContextSpecs } from '../../types';
 import { ResReqTypesValue } from '../../types/resolvers';
 import { getResReqTypes } from './resReqTypes';
 
-export const getResponse = (
+export const getResponse = async (
   responses: ResponsesObject,
   operationName: string,
   context: ContextSpecs,
@@ -22,7 +22,7 @@ export const getResponse = (
     };
   }
 
-  const types = getResReqTypes(
+  const types = await getResReqTypes(
     Object.entries(responses),
     operationName,
     context,

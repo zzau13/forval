@@ -18,6 +18,7 @@ export type GeneratorSchema = {
   name: string;
   model: string;
   imports: GeneratorImport[];
+  fields?: string[];
 };
 
 export type GeneratorImport = {

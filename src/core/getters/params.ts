@@ -36,72 +36,76 @@ export const getParams = ({
   pathParams?: GetterParameters['query'];
   operationId: string;
   context: ContextSpecs;
-}) =>
-  getParamsInPath(route).map((p) => {
-    const pathParam = pathParams.find(
-      ({ parameter }) =>
-        sanitize(camel(parameter.name), {
-          es5keyword: true,
-          underscore: true,
-          dash: true,
-        }) === p,
-    );
-
-    if (!pathParam) {
-      throw new Error(
-        `The path params ${p} can't be found in parameters (${operationId})`,
+}) => {
+  const params = getParamsInPath(route);
+  return Promise.all(
+    params.map(async (p) => {
+      const pathParam = pathParams.find(
+        ({ parameter }) =>
+          sanitize(camel(parameter.name), {
+            es5keyword: true,
+            underscore: true,
+            dash: true,
+          }) === p,
       );
-    }
 
-    const {
-      name: nameWithoutSanitize,
-      required = false,
-      schema,
-    } = pathParam.parameter;
+      if (!pathParam) {
+        throw new Error(
+          `The path params ${p} can't be found in parameters (${operationId})`,
+        );
+      }
 
-    const name = sanitize(camel(nameWithoutSanitize), { es5keyword: true });
+      const {
+        name: nameWithoutSanitize,
+        required = false,
+        schema,
+      } = pathParam.parameter;
 
-    if (!schema) {
+      const name = sanitize(camel(nameWithoutSanitize), { es5keyword: true });
+
+      if (!schema) {
+        return {
+          name,
+          definition: `${name}${!required ? '?' : ''}: unknown`,
+          implementation: `${name}${!required ? '?' : ''}: unknown`,
+          default: false,
+          required,
+          imports: [],
+        };
+      }
+
+      const resolvedValue = await resolveValue({
+        schema,
+        context: {
+          ...context,
+          ...(pathParam.imports.length
+            ? {
+                specKey: pathParam.imports[0].specKey,
+              }
+            : {}),
+        },
+      });
+
+      const definition = `${name}${
+        !required || resolvedValue.originalSchema!.default ? '?' : ''
+      }: ${resolvedValue.value}`;
+
+      const implementation = `${name}${
+        !required && !resolvedValue.originalSchema!.default ? '?' : ''
+      }${
+        !resolvedValue.originalSchema!.default
+          ? `: ${resolvedValue.value}`
+          : `= ${stringify(resolvedValue.originalSchema!.default)}`
+      }`;
+
       return {
         name,
-        definition: `${name}${!required ? '?' : ''}: unknown`,
-        implementation: `${name}${!required ? '?' : ''}: unknown`,
-        default: false,
+        definition,
+        implementation,
+        default: resolvedValue.originalSchema!.default,
         required,
-        imports: [],
+        imports: resolvedValue.imports,
       };
-    }
-
-    const resolvedValue = resolveValue({
-      schema,
-      context: {
-        ...context,
-        ...(pathParam.imports.length
-          ? {
-              specKey: pathParam.imports[0].specKey,
-            }
-          : {}),
-      },
-    });
-
-    const definition = `${name}${
-      !required || resolvedValue.originalSchema?.default ? '?' : ''
-    }: ${resolvedValue.value}`;
-
-    const implementation = `${name}${
-      !required && !resolvedValue.originalSchema?.default ? '?' : ''
-    }${
-      !resolvedValue.originalSchema?.default
-        ? `: ${resolvedValue.value}`
-        : `= ${stringify(resolvedValue.originalSchema?.default)}`
-    }`;
-
-    return {
-      name,
-      definition,
-      implementation,
-      default: resolvedValue.originalSchema?.default,
-      required,
-      imports: resolvedValue.imports,
-    };
-  });
+    }),
+  );
+};

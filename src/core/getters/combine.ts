@@ -2,6 +2,7 @@ import { ReferenceObject, SchemaObject } from 'openapi3-ts';
 import { ContextSpecs } from '../../types';
 import { GeneratorImport } from '../../types/generator';
 import { ResolverValue } from '../../types/resolvers';
+import { asyncReduce } from '../../utils/async-reduce';
 import { pascal } from '../../utils/case';
 import { getNumberWord } from '../../utils/string';
 import { resolveObject } from '../resolvers/object';
@@ -23,7 +24,7 @@ const SEPARATOR = {
   anyOf: '|',
 };
 
-export const combineSchemas = ({
+export const combineSchemas = async ({
   name,
   items,
   separator,
@@ -36,15 +37,16 @@ export const combineSchemas = ({
   context: ContextSpecs;
   nullable: string;
 }) => {
-  const resolvedData = items.reduce(
-    (acc, schema) => {
+  const resolvedData = await asyncReduce(
+    items,
+    async (acc, schema) => {
       let propName = name ? name + pascal(separator) : undefined;
 
       if (propName && acc.schemas.length) {
         propName = propName + pascal(getNumberWord(acc.schemas.length + 1));
       }
 
-      const resolvedValue = resolveObject({
+      const resolvedValue = await resolveObject({
         schema,
         propName,
         combined: true,

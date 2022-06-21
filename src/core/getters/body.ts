@@ -4,12 +4,12 @@ import { ContextSpecs } from '../../types';
 import { camel } from '../../utils/case';
 import { getResReqTypes } from './resReqTypes';
 
-export const getBody = (
+export const getBody = async (
   requestBody: ReferenceObject | RequestBodyObject,
   operationName: string,
   context: ContextSpecs,
 ) => {
-  const allBodyTypes = getResReqTypes(
+  const allBodyTypes = await getResReqTypes(
     [[context.override.components.requestBodies.suffix, requestBody]],
     operationName,
     context,

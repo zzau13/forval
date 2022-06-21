@@ -41,7 +41,11 @@ export const generateSpec = async (
     log(`${projectName ? `${projectName}: ` : ''}Cleaning output folder`);
   }
 
+  // TODO: why is async? NodeJS is single thread and all logic is sync
+  //   And why read same file multiple times, don't worry about io?
   const writeSpecProps = await importSpecs(workspace, options);
+  // console.dir(writeSpecProps, { depth: Infinity });
+
   await writeSpecs(writeSpecProps, workspace, options, projectName);
 };
 
@@ -65,7 +69,7 @@ export const generateSpecs = async (
     return;
   }
 
-  return asyncReduce(
+  return await asyncReduce(
     Object.entries(config),
     async (acc, [projectName, options]) => {
       acc.push(await generateSpec(workspace, options, projectName));
@@ -116,7 +120,7 @@ export const generateConfig = async (
     .filter((target) => isString(target)) as string[];
 
   if (options?.watch && fileToWatch.length) {
-    startWatcher(
+    await startWatcher(
       options?.watch,
       () => generateSpecs(normalizedConfig, workspace, options?.projectName),
       fileToWatch,

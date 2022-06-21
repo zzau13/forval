@@ -1,11 +1,6 @@
 import omitBy from 'lodash.omitby';
 import { VERBS_WITH_BODY } from '../../constants';
-import {
-  OutputClient,
-  OutputClientFunc,
-  QueryOptions,
-  Verbs,
-} from '../../types';
+import { OutputClient, OutputClientFunc, Verbs } from '../../types';
 import {
   GeneratorDependency,
   GeneratorMutator,
@@ -351,7 +346,7 @@ const generateQueryImplementation = ({
 }: {
   queryOption: {
     name: string;
-    options?: QueryOptions['options'];
+    options?: object | boolean;
     type: QueryType;
     queryParam?: string;
   };
@@ -501,21 +496,27 @@ const generateQueryHook = (
         : []),
     ];
 
+    const fields = queryParams?.schema?.fields;
     const queryKeyFnName = camel(`get-${operationName}-queryKey`);
-    const queryProps = toObjectString(props, 'implementation');
+    // TODO
+    const queryProps = toObjectString(props, 'implementation').replace(
+      'params?',
+      'params',
+    );
+    const keyProps = fields?.length
+      ? queryProps.replace('params', `{ ${fields.join(', ')} }`)
+      : queryProps;
 
-    // TODO: THIS IS PROVISIONAL. deconstruct and use fields
-    return `export const ${queryKeyFnName} = (${queryProps}) => [\`${route}\`${
-      queryParams
-        ? ', ...(params ? Object.entries(params).sort(([a], [b]) => a.localeCompare(b)).map(([,x]) => x): [])'
-        : ''
+    return `export const ${queryKeyFnName} = (${keyProps}) => [\`${route}\`${
+      fields?.length ? `, ${fields.join(', ')}` : ''
     }${body.implementation ? `, ${body.implementation}` : ''}];
 
     ${queries.reduce(
       (acc, queryOption) =>
         acc +
         generateQueryImplementation({
-          queryOption,
+          // TODO: madre mia el follon que lleva con los tipos
+          queryOption: queryOption as any,
           operationName,
           queryProps,
           queryKeyFnName,

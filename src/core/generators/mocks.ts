@@ -19,7 +19,7 @@ const getMockPropertiesWithoutFunc = (properties: any, spec: OpenAPIObject) =>
   >((acc, [key, value]) => {
     const implementation = isFunction(value)
       ? `(${value})()`
-      : stringify(value as string);
+      : stringify(value as string)!;
 
     acc[key] = implementation?.replace(
       /import_faker.defaults|import_faker.faker/g,
@@ -116,8 +116,8 @@ export const getResponsesMockDefinition = ({
   mockOptionsWithoutFunc: { [key: string]: unknown };
   transformer?: (value: unknown, definition: string) => string;
   context: ContextSpecs;
-}) => {
-  return asyncReduce(
+}) =>
+  asyncReduce(
     response.types.success,
     async (acc, { value: definition, originalSchema, imports }) => {
       if (!definition || generalJSTypesWithArray.includes(definition)) {
@@ -134,10 +134,7 @@ export const getResponsesMockDefinition = ({
         return acc;
       }
 
-      const resolvedRef = await resolveRef<SchemaObject>(
-        originalSchema,
-        context,
-      );
+      const resolvedRef = resolveRef<SchemaObject>(originalSchema, context);
 
       const scalar = await getMockScalar({
         item: {
@@ -170,7 +167,6 @@ export const getResponsesMockDefinition = ({
       imports: [] as GeneratorImport[],
     },
   );
-};
 
 export const getMockDefinition = async ({
   operationId,

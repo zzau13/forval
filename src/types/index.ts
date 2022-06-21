@@ -243,11 +243,11 @@ export type OverrideOutput = {
   useTypeOverInterfaces?: boolean;
 };
 
-export type QueryOptions = {
+type QueryOptions = {
   useQuery?: boolean;
   useInfinite?: boolean;
   useInfiniteQueryParam?: string;
-  options?: object | boolean;
+  options?: unknown;
 };
 
 export type AngularOptions = {
