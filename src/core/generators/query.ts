@@ -1,6 +1,11 @@
 import omitBy from 'lodash.omitby';
 import { VERBS_WITH_BODY } from '../../constants';
-import { OutputClient, OutputClientFunc, Verbs } from '../../types';
+import {
+  OutputClient,
+  OutputClientFunc,
+  QueryOptions,
+  Verbs,
+} from '../../types';
 import {
   GeneratorDependency,
   GeneratorMutator,
@@ -346,7 +351,7 @@ const generateQueryImplementation = ({
 }: {
   queryOption: {
     name: string;
-    options?: object | boolean;
+    options?: QueryOptions['options'];
     type: QueryType;
     queryParam?: string;
   };
@@ -510,8 +515,7 @@ const generateQueryHook = (
       (acc, queryOption) =>
         acc +
         generateQueryImplementation({
-          // TODO: madre mia el follon que lleva con los tipos
-          queryOption: queryOption as any,
+          queryOption,
           operationName,
           queryProps,
           queryKeyFnName,
