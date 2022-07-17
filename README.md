@@ -1,9 +1,3 @@
-# In refactor
-
-Thanks for your patience
-
-> What happens if I do `{ foo: 1 } === { foo: 1 }`? Totally awesome
-
 ### Code Generation
 
 `orval` is able to generate client with appropriate type-signatures (TypeScript) from any valid OpenAPI v3 or Swagger v2 specification, either in `yaml` or `json` formats.
