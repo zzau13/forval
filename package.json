@@ -61,6 +61,7 @@
     "generate-api": "node ./dist/bin/orval.js --config ./samples/react-query/basic/orval.config.ts --watch",
     "prepare": "husky install",
     "commitlint": "commitlint",
+    "lint-staged": "lint-staged",
     "update-samples": "zx ./scripts/update-samples.mjs",
     "prepublish": "pnpm build"
   },
