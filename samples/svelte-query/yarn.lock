@@ -1286,7 +1286,6 @@ ora@^5.3.0:
 
 "orval@link:../../dist":
   version "0.0.0"
-  uid ""
 
 os-tmpdir@~1.0.2:
   version "1.0.2"
@@ -1611,9 +1610,9 @@ svelte-preprocess@^4.0.0:
     strip-indent "^3.0.0"
 
 svelte@^3.29.0:
-  version "3.37.0"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.37.0.tgz#dc7cd24bcc275cdb3f8c684ada89e50489144ccd"
-  integrity sha512-TRF30F4W4+d+Jr2KzUUL1j8Mrpns/WM/WacxYlo5MMb2E5Qy2Pk1Guj6GylxsW9OnKQl1tnF8q3hG/hQ3h6VUA==
+  version "3.53.1"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.53.1.tgz#db9d7df7a8f570e8e22547444c149208b1914442"
+  integrity sha512-Q4/hHkktZogGhN5iqxqSi9sjEVoe/NbIxX4hXEHoasTxj+TxEQVAq66LnDMdAZxjmsodkoI5F3slqsS68U7FNw==
 
 table@^6.0.4:
   version "6.0.9"
